@@ -1,25 +1,33 @@
-import PropTypes from 'prop-types';
 import NavItem from '/src/components/molecules/NavItem';
-import { NavbarWrapper } from './Navbar.styles';
+import styles from './Navbar.module.css';
+import PropTypes from 'prop-types';
+
 
 const Navbar = ({ menuItems }) => {
   return (
-    <NavbarWrapper>
-      <ul>
+    <nav className={styles.navbar}>
+      <ul className={styles.navbarList}>
         {menuItems.map((item, index) => (
-          <NavItem key={index} icon={item.icon} label={item.label} to={item.to} />
+          <NavItem
+            key={index}
+            to={item.to}
+            text={item.text}
+            iconSrc={item.iconSrc}
+            iconAlt={item.iconAlt}
+          />
         ))}
       </ul>
-    </NavbarWrapper>
+    </nav>
   );
 };
-
 Navbar.propTypes = {
   menuItems: PropTypes.arrayOf(
     PropTypes.shape({
-      icon: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      key: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      iconSrc: PropTypes.string.isRequired,
+      iconAlt: PropTypes.string.isRequired,
     })
   ).isRequired,
 };

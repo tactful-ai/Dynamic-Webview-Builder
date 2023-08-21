@@ -3,19 +3,18 @@ import {Route ,Routes} from 'react-router-dom'
 import {Home} from "./pages/home/Home.jsx"
 import { Builder } from './pages/builder/Builder';
 import Navbar from './components/organisms/Navbar';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const App = () => {
+function App(){
   const menuItems = [
-    { icon: 'home', label: 'Home', to: '/home' },
-    { icon: 'ℹ️', label: 'About', to: '/Builder' },
-    // ... other menu items
+    { to: '/home', text: 'Home', iconSrc: '/house-solid.svg', iconAlt: 'Home Icon' },
+    { to: '/Builder', text: 'Builder', iconSrc: '/screwdriver-wrench-solid.svg', iconAlt: 'Builder Icon' },
   ];
 
   return (
     <>
-
-    <Navbar menuItems={menuItems} />
+    <div>
+      <Navbar menuItems={menuItems} />
+    </div>
 
     <Routes>
     <Route path ="/" element={<Home/>}></Route>
@@ -25,22 +24,6 @@ const App = () => {
     </Routes>
      </>
   );
-};
+}
 
 export default App;
-
-// function App(){
-  
-//   return(
-//   <>
-//   {/* <Navbar></Navbar> */}
-//   <Routes>
-//     <Route path ="/home" element={<Home/>}></Route>
-//     <Route path ="/Builder" element={<Builder/>}></Route>
-
-//   </Routes>
-//   </>
-//   );
-// }
-
-// export default App;

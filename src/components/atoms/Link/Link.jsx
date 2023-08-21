@@ -1,24 +1,18 @@
 import PropTypes from 'prop-types';
-import { LinkWrapper } from './Link.styles';
+import styles from './Link.module.css';
 
-const Link = ({ to, children, target, rel }) => {
+const Link = ({ to, text }) => {
   return (
-    <LinkWrapper href={to} target={target} rel={rel}>
-      {children}
-    </LinkWrapper>
+    <a href={to} className={styles.link}>
+      {text}
+    </a>
   );
 };
 
+// PropTypes validation
 Link.propTypes = {
   to: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  target: PropTypes.string,
-  rel: PropTypes.string,
-};
-
-Link.defaultProps = {
-  target: '_self',
-  rel: 'noopener noreferrer',
+  text: PropTypes.string.isRequired,
 };
 
 export default Link;
