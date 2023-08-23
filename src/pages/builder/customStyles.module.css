@@ -1,0 +1,14 @@
+/* customStyles.module.css */
+
+/* Styling for the editor container */
+.editorContainer {
+    background-color: #f0f0f0;
+    padding: 20px;
+  }
+  
+  /* Styling for the GrapesJS editor */
+  .gjs-custom-editor {
+    border: 1px solid #ccc;
+    /* Add more styles as needed */
+  }
+  
