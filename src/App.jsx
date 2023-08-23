@@ -4,12 +4,12 @@ import {Home} from "./pages/home/Home.jsx"
 import { Builder } from './pages/builder/Builder';
 import Navbar from './components/organisms/Navbar';
 
-function App(){
-  const menuItems = [
-    { to: '/home', text: 'Home', iconSrc: '/house-solid.svg', iconAlt: 'Home Icon' },
-    { to: '/Builder', text: 'Builder', iconSrc: '/screwdriver-wrench-solid.svg', iconAlt: 'Builder Icon' },
-  ];
+const menuItems = [
+  { to: '/home', text: 'Home', iconSrc: '/house-solid.svg', iconAlt: 'Home Icon' },
+  { to: '/Builder', text: 'Builder', iconSrc: '/screwdriver-wrench-solid.svg', iconAlt: 'Builder Icon' },
+];
 
+function App(){
   return (
     <>
     <div>
