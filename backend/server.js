@@ -1,10 +1,8 @@
-// external modules (npm installed)
 const express = require("express");
 const mongoose = require("mongoose");
 const expressLayouts = require("express-ejs-layouts");
 const cors = require("cors");
 
-// routes
 const indexRouter = require("./routes/index");
 
 const app = express();
