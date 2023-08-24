@@ -1,9 +1,13 @@
+// external modules (npm installed)
 const express = require("express");
 const mongoose = require("mongoose");
-const app = express();
 const expressLayouts = require("express-ejs-layouts");
-const indexRouter = require("./routes/index");
 const cors = require("cors");
+
+// routes
+const indexRouter = require("./routes/index");
+
+const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -11,7 +15,6 @@ app.set("layout", "layouts/layout");
 app.use(expressLayouts);
 app.use(express.static("public"));
 app.use(cors({ credentials: true, origin: "http::/localhost:5173" }));
-
 app.use("/", indexRouter);
 
 const PORT = 3001;
