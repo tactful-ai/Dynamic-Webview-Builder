@@ -1,5 +1,6 @@
 import GjsEditor from '@grapesjs/react';
 import gjsForms from 'grapesjs-plugin-forms';
+import './customStyles.module.css'
 
 const gjsOptions = {
     height: '100vh',
@@ -52,10 +53,75 @@ const gjsOptions = {
   };
 
 export function Builder(){
+  
     const onEditor = (editor) => {
+        // editor.setCSS('.sp-container button', {
+        //   'background-color': '#0000ff',
+        //   'color': '#fff',
+        //   'padding': '10px 20px',
+        //   'border': 'none',
+        //   'border-radius': '5px',
+        // });
+
+        editor.BlockManager.add('red-button-block', {
+          label: 'Red Button',
+          category: 'Styled Components',
+          content: `<button class="custom-red-button" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" contentEditable="true">Click Me</button>`,
+        });
+
+        editor.BlockManager.add('input-label-block', {
+          label: 'input-label',
+          category: 'Styled Components',
+          content: `<div style="display: flex; flex-direction: column; align-items: center; font-family: Arial, sans-serif; border: 1px solid #ccc; border-radius: 5px; background-color: #f5f5f5; padding: 20px;">
+          <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
+          <label for="name" style="margin-right: 10px;">Name:</label>
+          <input type="text" id="name" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px; background-color: transparent;"></div>
+        </div>`,
+        });
+        editor.BlockManager.add('centered-form-block', {
+          label: 'Centered Form',
+          category: 'Styled Components',
+          content: `
+          <div style="display: flex; flex-direction: column; align-items: center; font-family: Arial, sans-serif; border: 1px solid #ccc; border-radius: 5px; background-color: #f5f5f5; padding: 20px;">
+          <h1 style="margin-bottom: 20px;">Form</h1>
+          <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
+            <label for="name" style="margin-right: 10px;">Name:</label>
+            <input type="text" id="name" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px; background-color: transparent;">
+          </div>
+          <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
+            <label for="mail" style="margin-right: 10px;">Mail:</label>
+            <input type="text" id="mail" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px; background-color: transparent;">
+          </div>
+          <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
+            <label for="complaint" style="margin-right: 10px;">Complaint:</label>
+            <input type="text" id="complaint" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px; background-color: transparent;">
+          </div>
+          <button style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+        </div>
+          `,
+        });
+        editor.BlockManager.add('styled-faq', {
+          label: 'Styled FAQ',
+          category: 'Styled Components',
+          content: `
+            <div style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+              <h2 style="margin-bottom: 20px;">Frequently Asked Questions</h2>
+              <div style="border-bottom: 1px solid #ccc; margin-bottom: 10px;">
+                <h3 style="font-weight: bold;">Question 1:</h3>
+                <p>Answer to Question 1</p>
+              </div>
+              <div style="border-bottom: 1px solid #ccc; margin-bottom: 10px;">
+                <h3 style="font-weight: bold;">Question 2:</h3>
+                <p>Answer to Question 2</p>
+              </div>
+              <!-- Add more questions and answers here -->
+            </div>
+          `,
+        });
         console.log('Editor loaded', { editor });
         window.editor = editor;
       };
+      
     return (
         <>
           {/* <button onClick={() => console.log(window.editor.getHtml())}>
@@ -63,7 +129,7 @@ export function Builder(){
           </button> */}
           <div>
             <GjsEditor
-              className='gjs-custom-editor text-white bg-slate-900'
+              className='gjs-custom-editor'
               grapesjs='https://unpkg.com/grapesjs'
               grapesjsCss='https://unpkg.com/grapesjs/dist/css/grapes.min.css'
               options={gjsOptions}
