@@ -1,123 +1,129 @@
 const gjsOptions = {
+<<<<<<< HEAD
     height: '90vh',
     canvas: {
       styles: ['/stylesheets/canvas.css']
+=======
+  height: "100vh",
+  canvas: {
+    styles: ["/stylesheets/canvas.css"],
+  },
+  deviceManager: {
+    default: "mobilePortrait",
+    devices: [
+      {
+        id: "mobileLandscape",
+        name: "Mobile landscape",
+        width: "568px",
+        widthMedia: "768px",
+>>>>>>> 65c50de (Changed endpoint to store data to the server)
       },
-    deviceManager: {
-        default: 'mobilePortrait',
-        devices: [
-          {
-            id: 'mobileLandscape',
-            name: 'Mobile landscape',
-            width: '568px',
-            widthMedia: '768px',
-          },
-          {
-            id: 'mobilePortrait',
-            name: 'Mobile portrait',
-            width: '375px',
-            widthMedia: '480px',
-          },
-          {
-            id: 'tablet',
-            name: 'Tablet',
-            width: '770px',
-            widthMedia: '992px',
-          },
-        ],
+      {
+        id: "mobilePortrait",
+        name: "Mobile portrait",
+        width: "375px",
+        widthMedia: "480px",
       },
-    storageManager: {
-      type: 'remote',
-      stepsBeforeSave: 1,
-      options: {
-        remote: {
-          urlStore: 'http://127.0.0.1:3000/data', // Endpoint URL where to store data project
-          //  urlLoad: 'https://your-server/endpoint/load', // Endpoint URL where to load data project
-          onStore: (data) => {
-            console.log('onStore', data);
-            return { data}
-          },
+      {
+        id: "tablet",
+        name: "Tablet",
+        width: "770px",
+        widthMedia: "992px",
+      },
+    ],
+  },
+  storageManager: {
+    type: "remote",
+    stepsBeforeSave: 1,
+    options: {
+      remote: {
+        urlStore: "http://localhost:3001/save-draft", // Endpoint URL where to store data project
+        //  urlLoad: 'https://your-server/endpoint/load', // Endpoint URL where to load data project
+        onStore: (data) => {
+          console.log("onStore", data);
+          return { data };
         },
       },
-      autosave: true,
-      autoload: true,
-      contentTypeJson: true,
-      storeComponents: true,
-      storeStyles: true,
-      storeHtml: true,
-      storeCss: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      json_encode: {
-        'gjs-html': [],
-        'gjs-css': [],
-      },
     },
-    undoManager: { trackSelection: false },
-    selectorManager: { componentFirst: true },
-    styleManager: {
-    appendTo: '#style-manager-container',
+    autosave: true,
+    autoload: true,
+    contentTypeJson: true,
+    storeComponents: true,
+    storeStyles: true,
+    storeHtml: true,
+    storeCss: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    json_encode: {
+      "gjs-html": [],
+      "gjs-css": [],
+    },
+  },
+  undoManager: { trackSelection: false },
+  selectorManager: { componentFirst: true },
+  styleManager: {
+    appendTo: "#style-manager-container",
     sectors: [
       {
-        name: 'General',
+        name: "General",
         open: false,
         buildProps: [
-          'float',
-          'display',
-          'position',
-          'top',
-          'right',
-          'left',
-          'bottom',
+          "float",
+          "display",
+          "position",
+          "top",
+          "right",
+          "left",
+          "bottom",
         ],
       },
       {
-        name: 'Dimension',
+        name: "Dimension",
         open: false,
         buildProps: [
-          'width',
-          'height',
-          'max-width',
-          'min-height',
-          'margin',
-          'padding',
+          "width",
+          "height",
+          "max-width",
+          "min-height",
+          "margin",
+          "padding",
         ],
       },
       {
-        name: 'Typography',
+        name: "Typography",
         open: false,
         buildProps: [
-          'font-family',
-          'font-size',
-          'font-weight',
-          'letter-spacing',
-          'color',
-          'line-height',
-          'text-align',
-          'text-shadow',
+          "font-family",
+          "font-size",
+          "font-weight",
+          "letter-spacing",
+          "color",
+          "line-height",
+          "text-align",
+          "text-shadow",
         ],
       },
       {
-        name: 'Decorations',
+        name: "Decorations",
         open: false,
         buildProps: [
-          'border-radius-c',
-          'background-color',
-          'border-radius',
-          'border',
-          'box-shadow',
-          'background',
+          "border-radius-c",
+          "background-color",
+          "border-radius",
+          "border",
+          "box-shadow",
+          "background",
         ],
       },
       {
-        name: 'Extra',
+        name: "Extra",
         open: false,
-        buildProps: ['opacity', 'transition', 'perspective', 'transform'],
+        buildProps: ["opacity", "transition", "perspective", "transform"],
         properties: [
           {
-            type: 'slider',
-            property: 'opacity',
+            type: "slider",
+            property: "opacity",
             defaults: 1,
             step: 0.01,
             max: 1,
@@ -128,21 +134,21 @@ const gjsOptions = {
     ],
   },
 
-    projectData: {
-      assets: [
-        'https://via.placeholder.com/350x250/78c5d6/fff',
-        'https://via.placeholder.com/350x250/459ba8/fff',
-        'https://via.placeholder.com/350x250/79c267/fff',
-        'https://via.placeholder.com/350x250/c5d647/fff',
-        'https://via.placeholder.com/350x250/f28c33/fff',
-      ],
-      pages: [
-        {
-          name: 'Home page',
-          component: `<h1>Design Your Webview</h1>`,
-        },
-      ],
-    },
-  };
+  projectData: {
+    assets: [
+      "https://via.placeholder.com/350x250/78c5d6/fff",
+      "https://via.placeholder.com/350x250/459ba8/fff",
+      "https://via.placeholder.com/350x250/79c267/fff",
+      "https://via.placeholder.com/350x250/c5d647/fff",
+      "https://via.placeholder.com/350x250/f28c33/fff",
+    ],
+    pages: [
+      {
+        name: "Home page",
+        component: `<h1>Design Your Webview</h1>`,
+      },
+    ],
+  },
+};
 
 export default gjsOptions;
