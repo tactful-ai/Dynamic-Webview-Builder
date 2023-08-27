@@ -1,0 +1,13 @@
+:root {
+    --primary-color: #1fa5b3;
+    --secondary-color: #6c757d;
+    --background-color: #f8f9fa;
+    --text-color: #333;
+    --border-radius: 4px;
+    --font-family: Arial, sans-serif;
+    --font-size-base: 16px;
+    /* canvas styling */
+    --canvas-background-color: #f5f5f5;
+    --canvas-border-color:  #ccc;
+  }
+  

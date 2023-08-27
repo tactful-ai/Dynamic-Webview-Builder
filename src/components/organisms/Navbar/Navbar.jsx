@@ -13,7 +13,6 @@ const Navbar = ({ menuItems }) => {
             to={item.to}
             text={item.text}
             iconSrc={item.iconSrc}
-            iconAlt={item.iconAlt}
           />
         ))}
       </ul>
@@ -27,7 +26,6 @@ Navbar.propTypes = {
       to: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
       iconSrc: PropTypes.string.isRequired,
-      iconAlt: PropTypes.string.isRequired,
     })
   ).isRequired,
 };
