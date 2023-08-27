@@ -37,8 +37,7 @@ const gjsOptions = {
     stepsBeforeSave: 1,
     options: {
       remote: {
-        urlStore: "http://localhost:3001/save-draft", // Endpoint URL where to store data project
-        //  urlLoad: 'https://your-server/endpoint/load', // Endpoint URL where to load data project
+        urlStore: "http://localhost:3001/save-draft",
         onStore: (data) => {
           console.log("onStore", data);
           return { data };
