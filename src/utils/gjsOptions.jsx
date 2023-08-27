@@ -127,6 +127,7 @@ const gjsOptions = {
       },
     ],
   },
+
     projectData: {
       assets: [
         'https://via.placeholder.com/350x250/78c5d6/fff',
