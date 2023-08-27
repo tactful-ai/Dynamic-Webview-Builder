@@ -24,7 +24,7 @@ const AntdNav = ({ children }) => {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
           {menuItems.map((item, index) => (
             <Menu.Item key={index} icon={item.icon}>
               <Link to={item.to}>{item.text}</Link>

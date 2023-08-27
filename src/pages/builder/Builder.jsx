@@ -13,20 +13,66 @@ export function Builder(){
           attributes: {title: 'Save DB'}
         }]
       );
+      editor.Panels.addButton('options',
+      [{
+        id: 'publish',
+        className: 'fa fa-paper-plane',
+        command: 'publish',
+        attributes: {title: 'publish'}
+      }]
+    );
+
 
     editor.Commands.add('save-db', {
-      run: function (editor, sender) {
-        sender && sender.set('active', 0); // Turn off the button
+      run: function(editor, sender) {
+        sender && sender.set('active', 0);
         editor.store();
 
-        const htmldata = editor.getHtml();
-        const cssdata = editor.getCss();
-        console.log(htmldata);
-        console.log(cssdata);
-      }
-      //send to the backend
+        const jsonData = editor.getProjectData();
+        console.log(jsonData);
+
+        // Implement logic to send jsonData to the backend
+        // You can use fetch or any other method to send the data
+
+        fetch('/save-json', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(jsonData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('Data saved:', data);
+          })
+          .catch((error) => {
+            console.error('Error saving data:', error);
+          });
+      },
+    });
+
+      editor.Commands.add('publish', {
+        run: function (editor, sender) {
+          sender && sender.set('active', 0); 
+          editor.store();
+          const jsonData = editor.getProjectData();
+          console.log(jsonData);
+          fetch('/publish', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(jsonData),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log('Webview URL:', data.url);
+            })
+            .catch((error) => {
+              console.error('Error publishing:', error);
+            });
+        },
       });
-      
 
       editor.BlockManager.add('input-label-block', {
         label: 'Input Label',
