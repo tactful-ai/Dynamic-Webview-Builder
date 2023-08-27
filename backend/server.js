@@ -16,6 +16,8 @@ app.use(expressLayouts);
 app.use(express.static("public"));
 app.use(cors({ credentials: true, origin: "http::/localhost:5173" }));
 app.use("/", indexRouter);
+app.use("/save-draft", saveDraft);
+app.use("/publish/:id", publish);
 
 const PORT = 3001;
 
