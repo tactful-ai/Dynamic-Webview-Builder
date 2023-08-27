@@ -10,8 +10,8 @@ import {
 const { Header, Sider, Content } = Layout;
 
 const menuItems = [
-  { to: '/home', text: 'Home', icon: <UserOutlined />, alt: 'Home Icon' },
-  { to: '/builder', text: 'Builder', icon: <ToolOutlined />, alt: 'Builder Icon' },
+  { to: '/home', label: 'Home', icon: <UserOutlined />, alt: 'Home Icon' },
+  { to: '/builder', label: 'Builder', icon: <ToolOutlined />, alt: 'Builder Icon' },
 ];
 
 const AntdNav = ({ children }) => {
@@ -21,16 +21,10 @@ const AntdNav = ({ children }) => {
   } = theme.useToken();
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ height: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
-          {menuItems.map((item, index) => (
-            <Menu.Item key={index} icon={item.icon}>
-              <Link to={item.to}>{item.text}</Link>
-            </Menu.Item>
-          ))}
-        </Menu>
+        <Menu items={menuItems} theme="dark" mode="inline" defaultSelectedKeys={['0']} /> 
       </Sider>
       <Layout>
         <Header
@@ -52,9 +46,9 @@ const AntdNav = ({ children }) => {
         </Header>
         <Content
           style={{
-            margin: '24px 16px',
-            padding: 24,
+            margin: '16px',
             minHeight: 280,
+            maxHeight: '90vh',
             background: colorBgContainer,
           }}
         >
