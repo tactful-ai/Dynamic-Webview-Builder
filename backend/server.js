@@ -32,6 +32,44 @@ mongoose
     console.error("Error connecting to Mongoose:", error);
   });
 
+app.post("/save-draft", async (req, res) => {
+  const { content } = req.body;
+
+  try {
+    const template = new Template({
+      content,
+    });
+
+    await template.save();
+
+    res.status(201).json({
+      message: "Draft saved successfully",
+      templateId: savedTemplate._id,
+    });
+  } catch (error) {
+    console.error("Error saving draft:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/publish/:id", async (req, res) => {
+  const templateId = req.params.id;
+
+  try {
+    const template = await Template.findById(templateId);
+
+    if (!template) {
+      return res.status(404).json({ message: "Template not found" });
+    }
+
+    res.status(201).json({ message: " Published successfully" });
+    res.json({ content: template.content });
+  } catch (error) {
+    console.error("Error fetching template:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
