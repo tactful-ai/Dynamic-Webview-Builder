@@ -49,3 +49,13 @@ h1 {
   top: 50%;
   left: 50%;
 }
+
+
+.gjs-pn-views-container {
+  height: auto !important;
+  padding: 42px 0px 0px;
+  right: 0px;
+  width: 15%;
+  overflow: auto;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;
+}
