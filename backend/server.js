@@ -15,13 +15,15 @@ app.set("layout", "layouts/layout");
 app.use(expressLayouts);
 app.use(express.static("public"));
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use("/", indexRouter);
 app.use("/save-draft", saveDraft);
 app.use("/publish/:id", publish);
 
 const PORT = 3001;
 
-const mongoURL = "mongodb://localhost:27017";
+const mongoURL = "mongodb://localhost:27017/webBuilder";
 
 mongoose
   .connect(mongoURL, {
