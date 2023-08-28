@@ -2,15 +2,15 @@ const express = require("express");
 const router = express.Router();
 const Template = require("../models/template");
 
-router.post("/save-draft", async (req, res) => {
-  const { content } = req.body;
+router.post("/", async (req, res) => {
+  const content = req.body;
 
   try {
     const template = new Template({
       content,
     });
 
-    await template.save();
+    const savedTemplate = await template.save(); // Corrected variable name
 
     res.status(201).json({
       message: "Draft saved successfully",

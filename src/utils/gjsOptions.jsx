@@ -44,7 +44,7 @@ const gjsOptions = {
         },
       },
     },
-    autosave: true,
+    autosave: false,
     autoload: true,
     contentTypeJson: true,
     storeComponents: true,
