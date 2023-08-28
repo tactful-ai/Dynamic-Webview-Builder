@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const ejs = require("ejs");
 const Template = require("../models/template");
 const router = express.Router();
 
@@ -15,13 +16,15 @@ router.get("/:templateId", async (req, res) => {
     }
     const htmlContent = template.content;
 
+    const cssStyles = template.style;
+
     const ejsTemplatePath = path.join(__dirname, "../views", "template.ejs");
-    fs.writeFileSync(ejsTemplatePath, htmlContent);
 
-    const templateUrl = `http://localhost:3001/template/${templateId}`;
-    console.log(templateUrl);
-
-    res.status(200).json({ url: templateUrl });
+    const renderedHtml = ejs.render(fs.readFileSync(ejsTemplatePath, "utf-8"), {
+      htmlContent: htmlContent,
+      cssStyles: cssStyles, // Pass the CSS styles to the EJS template
+    });
+    res.status(200).send(renderedHtml);
   } catch (error) {
     console.error("Error publishing:", error);
     res.status(500).json({ message: "Internal server error" });

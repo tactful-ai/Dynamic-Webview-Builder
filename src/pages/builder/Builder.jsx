@@ -1,10 +1,8 @@
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
-import { useState } from "react";
 
 export function Builder() {
-  const [templateId, setTemplateId] = useState("");
   const onEditor = (editor) => {
     editor.Panels.addButton("options", [
       {
@@ -29,23 +27,23 @@ export function Builder() {
         editor.store();
 
         const htmlContent = editor.getHtml();
+        const cssStyles = editor.getCss();
+        var styles = `<style>${cssStyles}</style>`;
         console.log(htmlContent);
-
-        // Implement logic to send jsonData to the backend
-        // You can use fetch or any other method to send the data
+        console.log(cssStyles);
 
         fetch("http://localhost:3001/save-draft", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ content: htmlContent }),
+          body: JSON.stringify({ content: htmlContent, style: styles }),
         })
           .then((response) => response.json())
           .then((data) => {
             console.log("Data saved:", data);
-            setTemplateId(data.templateId);
-            console.log("template", templateId);
+            localStorage.setItem("templateId", data.templateId);
+            console.log("template", data.templateId);
           })
           .catch((error) => {
             console.error("Error saving data:", error);
@@ -57,22 +55,24 @@ export function Builder() {
       run: function (editor, sender) {
         sender && sender.set("active", 0);
         editor.store();
-        console.log("Template ID:", templateId);
+
+        const templateId = localStorage.getItem("templateId");
+        console.log("Stored Template ID:", templateId);
 
         fetch(`http://localhost:3001/publish/${templateId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Webview URL:", data.url);
-            window.open(data.url, "_blank");
-          })
-          .catch((error) => {
-            console.error("Error publishing:", error);
-          });
+        });
+        // Generate the link URL
+        const linkUrl = `http://localhost:3001/publish/${templateId}`;
+
+        console.log("Link to published template:", linkUrl);
+
+        // Open the link in a new browser window
+        const newWindow = window.open(linkUrl, "_blank");
+        newWindow.focus();
       },
     });
 
