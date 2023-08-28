@@ -1,8 +1,10 @@
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
+import { useState } from "react";
 
 export function Builder() {
+  const [templateId, setTemplateId] = useState("");
   const onEditor = (editor) => {
     editor.Panels.addButton("options", [
       {
@@ -42,6 +44,8 @@ export function Builder() {
           .then((response) => response.json())
           .then((data) => {
             console.log("Data saved:", data);
+            setTemplateId(data.templateId);
+            console.log("template", templateId);
           })
           .catch((error) => {
             console.error("Error saving data:", error);
@@ -53,18 +57,18 @@ export function Builder() {
       run: function (editor, sender) {
         sender && sender.set("active", 0);
         editor.store();
-        const jsonData = editor.getProjectData();
-        console.log(jsonData);
-        fetch("http://localhost:3001/publish", {
+        console.log("Template ID:", templateId);
+
+        fetch(`http://localhost:3001/publish/${templateId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(jsonData),
         })
           .then((response) => response.json())
           .then((data) => {
             console.log("Webview URL:", data.url);
+            window.open(data.url, "_blank");
           })
           .catch((error) => {
             console.error("Error publishing:", error);

@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const fs = require("fs");
 const expressLayouts = require("express-ejs-layouts");
 const cors = require("cors");
 
@@ -19,7 +18,7 @@ app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use("/", indexRouter);
 app.use(express.json());
 app.use("/save-draft", saveDraft);
-app.use("/publish/", publish);
+app.use("/publish", publish);
 
 const PORT = 3001;
 
