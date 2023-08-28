@@ -10,8 +10,16 @@ import {
 const { Header, Sider, Content } = Layout;
 
 const menuItems = [
-  { to: '/home', label: 'Home', icon: <UserOutlined />, alt: 'Home Icon' },
-  { to: '/builder', label: 'Builder', icon: <ToolOutlined />, alt: 'Builder Icon' },
+  {
+    key: 'Home',
+    label: <Link to='/Home'>Home</Link>,
+    icon: <UserOutlined />,
+  },
+  {
+    key: 'Builder',
+    label: <Link to='/Builder'>Builder</Link>,
+    icon: <ToolOutlined />,
+  },
 ];
 
 const AntdNav = ({ children }) => {
