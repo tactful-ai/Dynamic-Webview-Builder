@@ -9,15 +9,17 @@ function App(){
   return (
     <>
     <div>
-      <AntdNav></AntdNav>
-    </div>
-
-    <Routes>
+      <AntdNav>
+      <Routes>
     <Route path ="/" element={<Home/>}></Route>
      <Route path ="/home" element={<Home/>}></Route>
      <Route path ="/Builder" element={<Builder/>}></Route>
     
     </Routes>
+      </AntdNav>
+    </div>
+
+
      </>
   );
 }

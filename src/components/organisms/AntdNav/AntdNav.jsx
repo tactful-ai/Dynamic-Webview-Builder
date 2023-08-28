@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import './Navbar.css';
 import { Layout, Menu, Button, theme } from 'antd';
 import {
   MenuFoldOutlined,
@@ -21,7 +23,7 @@ const AntdNav = ({ children }) => {
   } = theme.useToken();
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout className="layout">
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
@@ -34,8 +36,8 @@ const AntdNav = ({ children }) => {
       </Sider>
       <Layout>
         <Header
+          className="header"
           style={{
-            padding: 0,
             background: colorBgContainer,
           }}
         >
@@ -50,19 +52,15 @@ const AntdNav = ({ children }) => {
             }}
           />
         </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-          }}
-        >
+        <Content className="content" style={{ background: colorBgContainer }}>
           {children}
         </Content>
       </Layout>
     </Layout>
   );
+};
+AntdNav.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default AntdNav;
