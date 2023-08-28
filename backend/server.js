@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const fs = require("fs");
 const expressLayouts = require("express-ejs-layouts");
 const cors = require("cors");
 
