@@ -26,8 +26,8 @@ export function Builder() {
         sender && sender.set("active", 0);
         editor.store();
 
-        const jsonData = editor.getProjectData();
-        console.log(jsonData);
+        const htmlContent = editor.getHtml();
+        console.log(htmlContent);
 
         // Implement logic to send jsonData to the backend
         // You can use fetch or any other method to send the data
@@ -37,7 +37,7 @@ export function Builder() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(jsonData),
+          body: JSON.stringify({ content: htmlContent }),
         })
           .then((response) => response.json())
           .then((data) => {
@@ -55,8 +55,8 @@ export function Builder() {
         editor.store();
         const jsonData = editor.getProjectData();
         console.log(jsonData);
-        fetch("/publish", {
-          method: "POST",
+        fetch("http://localhost:3001/publish", {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
