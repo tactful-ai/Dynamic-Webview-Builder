@@ -17,6 +17,7 @@ app.use(express.static("public"));
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use("/", indexRouter);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/save-draft", saveDraft);
 app.use("/publish", publish);
 
