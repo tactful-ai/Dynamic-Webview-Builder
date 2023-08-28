@@ -3,8 +3,29 @@ import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
 
 export function Builder() {
+
   const onEditor = (editor) => {
-    editor.Panels.addButton("options", [
+    const editorPanels = editor.Panels;
+    const editorCommands = editor.Commands;
+    const editorBlockManager = editor.BlockManager;
+
+    const panelViews = editorPanels.addPanel({
+      id: 'views',
+    });
+    
+    panelViews.get('buttons').add([
+      {
+        attributes: {
+          title: 'Open Code',
+        },
+        className: 'fa fa-file-code-o',
+        command: 'open-code',
+        togglable: false, 
+        id: 'open-code',
+      },
+    ]);
+
+    editorPanels.addButton("options", [
       {
         id: "save-db",
         className: "fa fa-floppy-o",
@@ -12,7 +33,8 @@ export function Builder() {
         attributes: { title: "Save DB" },
       },
     ]);
-    editor.Panels.addButton("options", [
+
+    editorPanels.addButton("options", [
       {
         id: "publish",
         className: "fa fa-paper-plane",
@@ -21,7 +43,7 @@ export function Builder() {
       },
     ]);
 
-    editor.Commands.add("save-db", {
+    editorCommands.add("save-db", {
       run: function (editor, sender) {
         sender && sender.set("active", 0);
         editor.store();
@@ -51,7 +73,7 @@ export function Builder() {
       },
     });
 
-    editor.Commands.add("publish", {
+    editorCommands.add("publish", {
       run: function (editor, sender) {
         sender && sender.set("active", 0);
         editor.store();
@@ -76,11 +98,11 @@ export function Builder() {
       },
     });
 
-    editor.BlockManager.add("input-label-block", {
-      label: "Input Label",
-      category: "Styled Components",
+    editorBlockManager.add('input-label-block', {
+      label: 'Input Label',
+      category: 'Styled Components',
       content: `
-          <div class="input-label-block">
+          <div class="input-label-block" >
             <div class="input-label-row">
               <label class="input-label" for="name">Name:</label>
               <input class="input-field" type="text" id="name">
@@ -89,8 +111,7 @@ export function Builder() {
         `,
     });
 
-    // Styled FAQ Block
-    editor.BlockManager.add("styled-faq", {
+    editorBlockManager.add("styled-faq", {
       label: "Styled FAQ",
       category: "Styled Components",
       content: `
