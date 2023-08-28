@@ -1,9 +1,4 @@
 const gjsOptions = {
-<<<<<<< HEAD
-    height: '90vh',
-    canvas: {
-      styles: ['/stylesheets/canvas.css']
-=======
   height: "100vh",
   canvas: {
     styles: ["/stylesheets/canvas.css"],
@@ -16,7 +11,6 @@ const gjsOptions = {
         name: "Mobile landscape",
         width: "568px",
         widthMedia: "768px",
->>>>>>> 65c50de (Changed endpoint to store data to the server)
       },
       {
         id: "mobilePortrait",
