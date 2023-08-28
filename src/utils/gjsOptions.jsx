@@ -1,5 +1,5 @@
 const gjsOptions = {
-  height: "100vh",
+  height: "90vh",
   canvas: {
     styles: ["/stylesheets/canvas.css"],
   },
