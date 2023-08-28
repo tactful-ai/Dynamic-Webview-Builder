@@ -1,5 +1,5 @@
 const gjsOptions = {
-  height: '90vh',
+  height: '100vh',
   canvas: {
     styles: ['/stylesheets/canvas.css'],
   },
@@ -55,77 +55,6 @@ const gjsOptions = {
   },
   undoManager: { trackSelection: false },
   selectorManager: { componentFirst: true },
-  styleManager: {
-    appendTo: "#style-manager-container",
-    sectors: [
-      {
-        name: "General",
-        open: false,
-        buildProps: [
-          "float",
-          "display",
-          "position",
-          "top",
-          "right",
-          "left",
-          "bottom",
-        ],
-      },
-      {
-        name: "Dimension",
-        open: false,
-        buildProps: [
-          "width",
-          "height",
-          "max-width",
-          "min-height",
-          "margin",
-          "padding",
-        ],
-      },
-      {
-        name: "Typography",
-        open: false,
-        buildProps: [
-          "font-family",
-          "font-size",
-          "font-weight",
-          "letter-spacing",
-          "color",
-          "line-height",
-          "text-align",
-          "text-shadow",
-        ],
-      },
-      {
-        name: "Decorations",
-        open: false,
-        buildProps: [
-          "border-radius-c",
-          "background-color",
-          "border-radius",
-          "border",
-          "box-shadow",
-          "background",
-        ],
-      },
-      {
-        name: "Extra",
-        open: false,
-        buildProps: ["opacity", "transition", "perspective", "transform"],
-        properties: [
-          {
-            type: "slider",
-            property: "opacity",
-            defaults: 1,
-            step: 0.01,
-            max: 1,
-            min: 0,
-          },
-        ],
-      },
-    ],
-  }, 
   projectData: {
     assets: [
       'https://via.placeholder.com/350x250/78c5d6/fff',

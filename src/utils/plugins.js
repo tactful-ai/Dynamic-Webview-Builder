@@ -1,4 +1,3 @@
-import 'grapesjs-component-code-editor';
 export const editorPlugins = [
   {
     id: 'gjs-blocks-basic',

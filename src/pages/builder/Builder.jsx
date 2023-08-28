@@ -1,9 +1,11 @@
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
+import { message } from 'antd';
+import { useState } from 'react';
 
 export function Builder() {
-
+  const [draftSaved, setDraftSaved] = useState(false);
   const onEditor = (editor) => {
     const editorPanels = editor.Panels;
     const editorCommands = editor.Commands;
@@ -43,16 +45,17 @@ export function Builder() {
       },
     ]);
 
-    editorCommands.add("save-db", {
-      run: function (editor, sender) {
+    editorCommands.add("save-db", 
+      function (editor, sender) {
         sender && sender.set("active", 0);
         editor.store();
 
         const htmlContent = editor.getHtml();
         const cssStyles = editor.getCss();
+
         var styles = `<style>${cssStyles}</style>`;
         console.log(htmlContent);
-        console.log(cssStyles);
+        console.log('css',cssStyles);
 
         fetch("http://localhost:3001/save-draft", {
           method: "POST",
@@ -66,15 +69,17 @@ export function Builder() {
             console.log("Data saved:", data);
             localStorage.setItem("templateId", data.templateId);
             console.log("template", data.templateId);
+            message.success('Draft saved successfully');
+            setDraftSaved(true);
           })
           .catch((error) => {
             console.error("Error saving data:", error);
+            message.error('Error saving draft');
           });
-      },
     });
 
-    editorCommands.add("publish", {
-      run: function (editor, sender) {
+    editorCommands.add("publish", 
+      function (editor, sender) {
         sender && sender.set("active", 0);
         editor.store();
 
@@ -86,16 +91,31 @@ export function Builder() {
           headers: {
             "Content-Type": "application/json",
           },
-        });
-        // Generate the link URL
-        const linkUrl = `http://localhost:3001/publish/${templateId}`;
+        })
+        .then(() => {
+          // Generate the link URL
+          const linkUrl = `http://localhost:3001/publish/${templateId}`;
+  
+          console.log("Link to published template:", linkUrl);
+  
+          message.success('Template published successfully');
+            
+          // Use the Clipboard API to copy the link URL to the clipboard
+          navigator.clipboard.writeText(linkUrl)
+          .then(() => {
+            console.log("Link copied to clipboard:", linkUrl);
+            message.success('Link copied to clipboard');
+          })
+          .catch((error) => {
+            console.error("Error copying to clipboard:", error);
+            message.error('Error copying link to clipboard');
+          });
 
-        console.log("Link to published template:", linkUrl);
-
-        // Open the link in a new browser window
-        const newWindow = window.open(linkUrl, "_blank");
-        newWindow.focus();
-      },
+        })
+        .catch((error) => {
+          console.error("Error publishing:", error);
+          message.error('Error publishing template');
+        })
     });
 
     editorBlockManager.add('input-label-block', {
@@ -131,7 +151,6 @@ export function Builder() {
     <>
       <div>
         <GjsEditor
-          className="gjs-custom-editor"
           grapesjs="https://unpkg.com/grapesjs"
           grapesjsCss="https://unpkg.com/grapesjs/dist/css/grapes.min.css"
           options={gjsOptions}
