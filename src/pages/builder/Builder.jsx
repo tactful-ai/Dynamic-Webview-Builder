@@ -2,10 +2,8 @@ import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
 import { message } from 'antd';
-import { useState } from 'react';
 
 export function Builder() {
-  const [draftSaved, setDraftSaved] = useState(false);
   const onEditor = (editor) => {
     const editorPanels = editor.Panels;
     const editorCommands = editor.Commands;
@@ -70,7 +68,6 @@ export function Builder() {
             localStorage.setItem("templateId", data.templateId);
             console.log("template", data.templateId);
             message.success('Draft saved successfully');
-            setDraftSaved(true);
           })
           .catch((error) => {
             console.error("Error saving data:", error);
