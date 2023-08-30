@@ -141,8 +141,67 @@ export function Builder() {
           </div>
         `,
     });
+    editor.DomComponents.addType('dynamic-api-content', {
+      model: {
+        defaults: {
+          apiUrl: '',
+          content: '',
+          traits: [
+            {
+              type: 'text',
+              name: 'apiUrl',
+              label: 'API URL',
+            },
+            {
+              type: 'button',
+              text: 'Fetch Content',
+              full: true,
+              functionName: 'onFetchClick',
+            },
+          ],
+        },
+        methods: {
+          onFetchClick() {
+            const apiUrl = this.get('apiUrl');
+            if (apiUrl) {
+              console.log('Fetching content from:', apiUrl);
+              this.fetchContent(apiUrl);
+            }
+          },
+          fetchContent(apiUrl) {
+            fetch(apiUrl)
+              .then(response => response.text())
+              .then(data => {
+                this.set('content', data);
+              })
+              .catch(error => {
+                console.error('Error fetching content:', error);
+              });
+          },
+        },
+      },
+      view: {
+        onRender() {
+          const content = this.model.get('content');
+          if (content) {
+            this.el.innerHTML = content;
+          }
+        },
+      },
+    });
+    
+    editor.BlockManager.add('dynamic-api-block', {
+      label: 'Dynamic API Block',
+      category: 'Custom Blocks',
+      content: {
+        type: 'dynamic-api-content',
+        components: '<p>Loading...</p>',
+      },
+    });
+    
     window.editor = editor;
   };
+
 
   return (
     <>
