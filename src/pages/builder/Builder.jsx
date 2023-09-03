@@ -1,14 +1,15 @@
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
+
 import { editorPlugins } from "/src/utils/plugins";
+import { defineCustomBlocks } from "/src/utils/customBlocks";
+
 import { message } from 'antd';
 
 export function Builder() {
   const onEditor = (editor) => {
     const editorPanels = editor.Panels;
     const editorCommands = editor.Commands;
-    const editorBlockManager = editor.BlockManager;
-
     const panelViews = editorPanels.addPanel({
       id: 'views',
     });
@@ -43,36 +44,47 @@ export function Builder() {
       },
     ]);
 
-    editorCommands.add("save-db", 
-      function (editor, sender) {
-        sender && sender.set("active", 0);
-        editor.store();
-
-        const htmlContent = editor.getHtml();
-        const cssStyles = editor.getCss();
-
-        var styles = `<style>${cssStyles}</style>`;
-        console.log(htmlContent);
-        console.log('css',cssStyles);
-
-        fetch("http://localhost:3001/save-draft", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ content: htmlContent, style: styles }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Data saved:", data);
-            localStorage.setItem("templateId", data.templateId);
-            console.log("template", data.templateId);
-            message.success('Draft saved successfully');
+    editorCommands.add("save-db", function (editor, sender) {
+      sender && sender.set("active", 0);
+      editor.store();
+    
+      const htmlContent = editor.getHtml();
+      
+      const externalCssUrls = editor.getConfig().canvas.styles;
+      const fetchCssPromises = externalCssUrls.map(url => fetch(url).then(response => response.text()));
+    
+      Promise.all(fetchCssPromises)
+        .then(externalCssArray => {
+          const internalCss = editor.getCss();
+          const combinedCss = externalCssArray.join('\n') + '\n' + internalCss;
+    
+          var styles = `<style>${combinedCss}</style>`;
+          console.log(htmlContent);
+          console.log('css', combinedCss);
+    
+          fetch("http://localhost:3001/save-draft", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ content: htmlContent, style: styles }),
           })
-          .catch((error) => {
-            console.error("Error saving data:", error);
-            message.error('Error saving draft');
-          });
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Data saved:", data);
+              localStorage.setItem("templateId", data.templateId);
+              console.log("template", data.templateId);
+              message.success('Draft saved successfully');
+            })
+            .catch((error) => {
+              console.error("Error saving data:", error);
+              message.error('Error saving draft');
+            });
+        })
+        .catch((error) => {
+          console.error("Error fetching external CSS:", error);
+          message.error('Error fetching external CSS');
+        });
     });
 
     editorCommands.add("publish", 
@@ -115,32 +127,7 @@ export function Builder() {
         })
     });
 
-    editorBlockManager.add('input-label-block', {
-      label: 'Input Label',
-      category: 'Styled Components',
-      content: `
-          <div class="input-label-block" >
-            <div class="input-label-row">
-              <label class="input-label" for="name">Name:</label>
-              <input class="input-field" type="text" id="name">
-            </div>
-          </div>
-        `,
-    });
-
-    editorBlockManager.add("styled-faq", {
-      label: "Styled FAQ",
-      category: "Styled Components",
-      content: `
-          <div class="styled-faq">
-            <h2 class="faq-heading">Frequently Asked Questions</h2>
-            <div class="faq-item">
-              <h3>Question 1:</h3>
-              <p>Answer to Question 1</p>
-            </div>
-          </div>
-        `,
-    });
+    
     editor.DomComponents.addType('dynamic-api-content', {
       model: {
         defaults: {
@@ -189,6 +176,11 @@ export function Builder() {
         },
       },
     });
+    editor.onReady(() => {
+      editor.getComponents().add(
+        '<link rel="stylesheet" href="public/stylesheets/canvas.css">'
+      )
+   });
     
     editor.BlockManager.add('dynamic-api-block', {
       label: 'Dynamic API Block',
@@ -198,7 +190,8 @@ export function Builder() {
         components: '<p>Loading...</p>',
       },
     });
-    
+
+    defineCustomBlocks(editor);
     window.editor = editor;
   };
 
