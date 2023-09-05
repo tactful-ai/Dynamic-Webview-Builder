@@ -144,18 +144,11 @@ export function Builder() {
           });
       }
     };
-    // const script = (function (props) {
-    //   window.addEventListener("load", (event) => {
-    //     props.fetchFAQData;
-    //   });
-    // })();
-
     const script = function (props) {
-      const myLibOpts = {
-        prop1: props.myprop1,
-        prop2: props.myprop2,
-      };
-      alert("My lib options: " + JSON.stringify(myLibOpts));
+      window.addEventListener("load", (event) => {
+        prop1: props.fetchFAQData;
+      });
+      alert("Hello");
     };
 
     // Function to generate FAQ content
@@ -176,10 +169,10 @@ export function Builder() {
       model: {
         defaults: {
           script,
-          myprop1: "value1",
-          myprop2: "10",
+          myprop1: fetchFAQData,
           apiUrl: "http://localhost:3001/faq",
           content: "",
+          "script-props": ["fetchFAQData"],
         },
         init() {
           // Fetch FAQ data when the component is initialized
@@ -194,7 +187,6 @@ export function Builder() {
           }
         },
       },
-      "script-props": ["myprop1", "myprop2"],
     });
 
     editor.BlockManager.add("faq-block", {
