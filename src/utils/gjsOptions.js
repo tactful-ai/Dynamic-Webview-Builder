@@ -15,8 +15,8 @@ const gjsOptions = {
       {
         id: 'mobilePortrait',
         name: 'Mobile portrait',
-        width: '375px',
-        widthMedia: '480px',
+        // width: '375px',
+        // widthMedia: '375px',
       },
       {
         id: 'tablet',

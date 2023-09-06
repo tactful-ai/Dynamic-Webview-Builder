@@ -176,11 +176,6 @@ export function Builder() {
         },
       },
     });
-    editor.onReady(() => {
-      editor.getComponents().add(
-        '<link rel="stylesheet" href="public/stylesheets/canvas.css">'
-      )
-   });
     
     editor.BlockManager.add('dynamic-api-block', {
       label: 'Dynamic API Block',
