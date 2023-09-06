@@ -49,8 +49,6 @@ export function Builder() {
       editor.store();
     
       const htmlContent = editor.getHtml();
-      const js = editor.getJs();
-      console.log(js, 'js'); 
       
       const externalCssUrls = editor.getConfig().canvas.styles;
       const fetchCssPromises = externalCssUrls.map(url => fetch(url).then(response => response.text()));
@@ -129,23 +127,12 @@ export function Builder() {
         })
     });
 
-    const script = function (props) {
-      const myLibOpts = {
-        prop1: props.myprop1,
-        prop2: props.myprop2,
-      };
-      alert('My lib options: ' + JSON.stringify(myLibOpts));
-    };
-
-    editor.Components.addType('dynamic-api-content', {
+    
+    editor.DomComponents.addType('dynamic-api-content', {
       model: {
         defaults: {
-          script,
-          // console: () => {console.log("hi")},
           apiUrl: '',
-          myprop1: 'x',
-          myprop2: 'y',
-          content: {},
+          content: '',
           traits: [
             {
               type: 'text',
@@ -159,7 +146,6 @@ export function Builder() {
               functionName: 'onFetchClick',
             },
           ],
-          'script-props': ['myprop1', 'myprop2', 'apiUrl'],
         },
         methods: {
           onFetchClick() {
@@ -171,58 +157,33 @@ export function Builder() {
           },
           fetchContent(apiUrl) {
             fetch(apiUrl)
-              .then((response) => response.text())
-              .then((data) => {
+              .then(response => response.text())
+              .then(data => {
                 this.set('content', data);
               })
-              .catch((error) => {
+              .catch(error => {
                 console.error('Error fetching content:', error);
               });
           },
         },
       },
       view: {
-        onRender({ el, model }) {
-          console.log(el);
-          fetch('https://jsonplaceholder.typicode.com/posts/1')
-            .then((response) => response.json())
-            .then((data) => {
-              model.set('content', data.title);
-              console.log('Error fetching content:', data);
-            })
-            .catch((error) => {
-              console.error('Error fetching content:', error);
-            });
-
-          let content = model.get('content');
-
-          console.log({ content });
-
-          let comp1 =
-            '<div>' +
-            '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png" />' +
-            '<span title="foo">' +
-            content +
-            '</span>' +
-            '</div>';
-
-          const component = editor.addComponents(comp1);
-          return component;
+        onRender() {
+          const content = this.model.get('content');
+          if (content) {
+            this.el.innerHTML = content;
+          }
         },
       },
     });
-
-
-    editor.onReady(() => {
-      editor.getComponents().add(
-        '<link rel="stylesheet" href="public/stylesheets/canvas.css">'
-      )
-   });
     
     editor.BlockManager.add('dynamic-api-block', {
       label: 'Dynamic API Block',
       category: 'Custom Blocks',
-      content: `<div data-gjs-type="dynamic-api-content"></div>`,
+      content: {
+        type: 'dynamic-api-content',
+        components: '<p>Loading...</p>',
+      },
     });
 
     defineCustomBlocks(editor);
