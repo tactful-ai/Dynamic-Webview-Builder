@@ -1,9 +1,7 @@
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
-
 import { editorPlugins } from "/src/utils/plugins";
 import { defineCustomBlocks } from "/src/utils/customBlocks";
-
 import { message } from "antd";
 
 export function Builder() {
@@ -129,37 +127,67 @@ export function Builder() {
     });
 
     // Function to fetch FAQ data
-    const fetchFAQData = (component) => {
-      const apiUrl = component.get("apiUrl");
-      if (apiUrl) {
-        fetch(apiUrl)
+    const fetchFAQData = (url) => {
+      let content;
+      if (url) {
+        return fetch(url)
           .then((response) => response.json())
           .then((data) => {
             // Process FAQ data and set the component's content
-            const content = generateFAQContent(data);
-            component.set("content", content);
+            content = generateFAQContent(data);
+            return content;
           })
           .catch((error) => {
             console.error("Error fetching FAQ data:", error);
           });
       }
     };
+
     const script = function (props) {
+      // Function to fetch FAQ data
+      const fetchFAQData = (url) => {
+        if (url) {
+          return fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+              // Process FAQ data and set the component's content
+              generateFAQContent(data);
+            })
+            .catch((error) => {
+              console.error("Error fetching FAQ data:", error);
+            });
+        }
+      };
+      // Function to generate FAQ content
+      function generateFAQContent(data) {
+        // Generate HTML content for displaying FAQ items
+        let content = "";
+        data?.forEach((item) => {
+          content += `<div class="faq-item">  
+        <h3 id="faq-ques">${item.question}</h3>
+        <p id="faq-ans">${item.answer}</p>
+      </div>`;
+        });
+        document.getElementById("id").innerHTML = content;
+        console.log(data);
+        console.log(content);
+      }
+
       window.addEventListener("load", (event) => {
-        prop1: props.fetchFAQData;
+        fetchFAQData(props.apiUrl); // Call fetchFAQData with the current context
       });
-      alert("Hello");
+      console.log(props);
     };
 
-    // Function to generate FAQ content
+    // Function to generate FAQ content OUTSIDE
     function generateFAQContent(data) {
       // Generate HTML content for displaying FAQ items
       let content = '<div class="faq-component">';
       data.forEach((item) => {
         content += `<div class="faq-item">
-          <h3>${item.question}</h3>
-          <p>${item.answer}</p>
-      </div>`;
+      <h3 id="faq-ques">${item.question}</h3>
+      <p id="faq-ans"> ${item.answer}</p>
+    </div>`;
       });
       content += "</div>";
       return content;
@@ -169,22 +197,23 @@ export function Builder() {
       model: {
         defaults: {
           script,
-          myprop1: fetchFAQData,
+          // fetchFAQData: "fetchFAQData",
+          // fetchFAQData: (url) => fetchFAQData(url),
           apiUrl: "http://localhost:3001/faq",
           content: "",
-          "script-props": ["fetchFAQData"],
-        },
-        init() {
-          // Fetch FAQ data when the component is initialized
-          fetchFAQData(this);
+          "script-props": ["fetchFAQData", "apiUrl"],
         },
       },
       view: {
-        onRender() {
-          const content = this.model.get("content");
+        async onRender({ model }) {
+          const url = model.get("apiUrl");
+          const content = await fetchFAQData(url);
+          model.set("content", content);
           if (content) {
-            this.el.innerHTML = content;
+            this.el.innerHTML = model.get("content");
           }
+          // const component = editor.addComponents(model.get("content"));
+          // return component;
         },
       },
     });
@@ -192,9 +221,10 @@ export function Builder() {
     editor.BlockManager.add("faq-block", {
       label: "FAQ Block",
       category: "Dynamic Blocks",
-      content: {
-        type: "faq-component",
-      },
+      // content: {
+      //   type: "faq-component",
+      // },
+      content: `<div id="id" data-gjs-type="faq-component" ></div>`,
     });
 
     defineCustomBlocks(editor);
