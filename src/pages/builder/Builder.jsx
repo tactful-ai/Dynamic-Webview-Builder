@@ -26,30 +26,11 @@ export function Builder() {
       },
     ]);
 
-    editorPanels.addButton("options", [
-      {
-        id: "save-db",
-        className: "fa fa-floppy-o",
-        command: "save-db",
-        attributes: { title: "Save DB" },
-      },
-    ]);
-
-    editorPanels.addButton("options", [
-      {
-        id: "publish",
-        className: "fa fa-paper-plane",
-        command: "publish",
-        attributes: { title: "publish" },
-      },
-    ]);
-
+    //Save Draft Button
     editorCommands.add("save-db", function (editor, sender) {
       sender && sender.set("active", 0);
       editor.store();
-
       const htmlContent = editor.getHtml();
-
       const externalCssUrls = editor.getConfig().canvas.styles;
       const fetchCssPromises = externalCssUrls.map((url) =>
         fetch(url).then((response) => response.text())
@@ -59,7 +40,6 @@ export function Builder() {
         .then((externalCssArray) => {
           const internalCss = editor.getCss();
           const combinedCss = externalCssArray.join("\n") + "\n" + internalCss;
-
           var styles = `<style>${combinedCss}</style>`;
           console.log(htmlContent);
           console.log("css", combinedCss);
@@ -89,10 +69,19 @@ export function Builder() {
         });
     });
 
+    editorPanels.addButton("options", [
+      {
+        id: "save-db",
+        className: "fa fa-floppy-o",
+        command: "save-db",
+        attributes: { title: "Save DB" },
+      },
+    ]);
+
+    // Publish Button
     editorCommands.add("publish", function (editor, sender) {
       sender && sender.set("active", 0);
       editor.store();
-
       const templateId = localStorage.getItem("templateId");
       console.log("Stored Template ID:", templateId);
 
@@ -105,9 +94,7 @@ export function Builder() {
         .then(() => {
           // Generate the link URL
           const linkUrl = `http://localhost:3001/publish/${templateId}`;
-
           console.log("Link to published template:", linkUrl);
-
           message.success("Template published successfully");
 
           // Use the Clipboard API to copy the link URL to the clipboard
@@ -127,6 +114,15 @@ export function Builder() {
           message.error("Error publishing template");
         });
     });
+
+    editorPanels.addButton("options", [
+      {
+        id: "publish",
+        className: "fa fa-paper-plane",
+        command: "publish",
+        attributes: { title: "publish" },
+      },
+    ]);
 
     // Custom Blocks
     faqContent(editor);
