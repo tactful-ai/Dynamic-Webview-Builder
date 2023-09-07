@@ -6,6 +6,7 @@ const cors = require("cors");
 const indexRouter = require("./routes/index");
 const saveDraft = require("./routes/save-draft");
 const publish = require("./routes/publish");
+const faq = require("./routes/faq");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/save-draft", saveDraft);
 app.use("/publish", publish);
+app.use("/faq", faq);
 
 const PORT = 3001;
 
