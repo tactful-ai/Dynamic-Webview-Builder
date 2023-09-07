@@ -7,6 +7,8 @@ const indexRouter = require("./routes/index");
 const saveDraft = require("./routes/save-draft");
 const publish = require("./routes/publish");
 const faq = require("./routes/faq");
+const itemDetails = require("./routes/itemDetails");
+
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/save-draft", saveDraft);
 app.use("/publish", publish);
 app.use("/faq", faq);
+app.use("/products", itemDetails);
+
 
 const PORT = 3001;
 

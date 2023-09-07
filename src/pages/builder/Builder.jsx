@@ -1,7 +1,8 @@
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
-import { defineCustomBlocks } from "/src/utils/customBlocks";
+import { defineCustomBlocks } from "/src/costumBlocks/customBlocks";
+import { itemDetailsBlock } from "/src/costumBlocks/itemDetails";
 import { message } from "antd";
 
 export function Builder() {
@@ -164,11 +165,16 @@ export function Builder() {
         let content = "";
         data?.forEach((item) => {
           content += `<div class="faq-item">  
-        <h3 id="faq-ques">${item.question}</h3>
-        <p id="faq-ans">${item.answer}</p>
+        <h3 id="faq-ques" class="faq-ques" >${item.question}</h3>
+        <p id="faq-ans" class="faq-ans" >${item.answer}</p>
       </div>`;
         });
-        document.getElementById("id").innerHTML = content;
+        const els = document.querySelectorAll('.faq-component');
+        console.log("els",els)
+        Array.prototype.forEach.call(els, (_, idx) => {
+          console.log("elements",document.getElementsByClassName('faq-component')[idx])
+          document.getElementsByClassName('faq-component')[idx].innerHTML = content
+        });
         console.log(data);
         console.log(content);
       }
@@ -185,9 +191,9 @@ export function Builder() {
       let content = '<div class="faq-component">';
       data.forEach((item) => {
         content += `<div class="faq-item">
-      <h3 id="faq-ques">${item.question}</h3>
-      <p id="faq-ans"> ${item.answer}</p>
-    </div>`;
+      <h3 id="faq-ques" class="faq-ques" >${item.question}</h3>
+      <p id="faq-ans" class="faq-ans"> ${item.answer}</p>
+      </div>`;
       });
       content += "</div>";
       return content;
@@ -208,12 +214,9 @@ export function Builder() {
         async onRender({ model }) {
           const url = model.get("apiUrl");
           const content = await fetchFAQData(url);
-          model.set("content", content);
-          if (content) {
-            this.el.innerHTML = model.get("content");
-          }
-          // const component = editor.addComponents(model.get("content"));
-          // return component;
+
+          const component = editor.addComponents(content);
+          return component;
         },
       },
     });
@@ -221,12 +224,13 @@ export function Builder() {
     editor.BlockManager.add("faq-block", {
       label: "FAQ Block",
       category: "Dynamic Blocks",
-      // content: {
-      //   type: "faq-component",
-      // },
-      content: `<div id="id" data-gjs-type="faq-component" ></div>`,
+      content: {
+        type: "faq-component",
+      },
+      // content: `<div id="id" data-gjs-type="faq-component" ></div>`,
     });
 
+    itemDetailsBlock(editor);
     defineCustomBlocks(editor);
     window.editor = editor;
   };
