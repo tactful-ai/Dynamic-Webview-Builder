@@ -1,8 +1,9 @@
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
-import { defineCustomBlocks } from "/src/costumBlocks/customBlocks";
-import { itemDetailsBlock } from "/src/costumBlocks/itemDetails";
+import { defineCustomBlocks } from "/src/customBlocks/customBlocks";
+import { itemDetailsBlock } from "/src/customBlocks/itemDetails";
+import { faqContent } from "/src/customBlocks/faqContent";
 import { message } from "antd";
 
 export function Builder() {
@@ -127,113 +128,8 @@ export function Builder() {
         });
     });
 
-    // Function to fetch FAQ data
-    const fetchFAQData = (url) => {
-      let content;
-      if (url) {
-        return fetch(url)
-          .then((response) => response.json())
-          .then((data) => {
-            // Process FAQ data and set the component's content
-            content = generateFAQContent(data);
-            return content;
-          })
-          .catch((error) => {
-            console.error("Error fetching FAQ data:", error);
-          });
-      }
-    };
-
-    const script = function (props) {
-      // Function to fetch FAQ data
-      const fetchFAQData = (url) => {
-        if (url) {
-          return fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-              // Process FAQ data and set the component's content
-              generateFAQContent(data);
-            })
-            .catch((error) => {
-              console.error("Error fetching FAQ data:", error);
-            });
-        }
-      };
-      // Function to generate FAQ content
-      function generateFAQContent(data) {
-        // Generate HTML content for displaying FAQ items
-        let content = "";
-        data?.forEach((item) => {
-          content += `<div class="faq-item">  
-        <h3 id="faq-ques" class="faq-ques" >${item.question}</h3>
-        <p id="faq-ans" class="faq-ans" >${item.answer}</p>
-      </div>`;
-        });
-        const els = document.querySelectorAll(".faq-component");
-        console.log("els", els);
-        Array.prototype.forEach.call(els, (_, idx) => {
-          console.log(
-            "elements",
-            document.getElementsByClassName("faq-component")[idx]
-          );
-          document.getElementsByClassName("faq-component")[idx].innerHTML =
-            content;
-        });
-        console.log(data);
-        console.log(content);
-      }
-
-      window.addEventListener("load", (event) => {
-        fetchFAQData(props.apiUrl); // Call fetchFAQData with the current context
-      });
-      console.log(props);
-    };
-
-    // Function to generate FAQ content OUTSIDE
-    function generateFAQContent(data) {
-      // Generate HTML content for displaying FAQ items
-      let content = '<div class="faq-component">';
-      data.forEach((item) => {
-        content += `<div class="faq-item">
-      <h3 id="faq-ques" class="faq-ques" >${item.question}</h3>
-      <p id="faq-ans" class="faq-ans"> ${item.answer}</p>
-      </div>`;
-      });
-      content += "</div>";
-      return content;
-    }
-
-    editor.DomComponents.addType("faq-component", {
-      model: {
-        defaults: {
-          script,
-          // fetchFAQData: "fetchFAQData",
-          // fetchFAQData: (url) => fetchFAQData(url),
-          apiUrl: "http://localhost:3001/faq",
-          content: "",
-          "script-props": ["fetchFAQData", "apiUrl"],
-        },
-      },
-      view: {
-        async onRender({ model }) {
-          const url = model.get("apiUrl");
-          const content = await fetchFAQData(url);
-
-          const component = editor.addComponents(content);
-          return component;
-        },
-      },
-    });
-
-    editor.BlockManager.add("faq-block", {
-      label: "FAQ Block",
-      category: "Dynamic Blocks",
-      content: {
-        type: "faq-component",
-      },
-      // content: `<div id="id" data-gjs-type="faq-component" ></div>`,
-    });
-
+    // Custom Blocks
+    faqContent(editor);
     itemDetailsBlock(editor);
     defineCustomBlocks(editor);
     window.editor = editor;

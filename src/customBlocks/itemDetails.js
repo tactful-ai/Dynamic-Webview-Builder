@@ -1,6 +1,6 @@
 export const itemDetailsBlock = (editor) => {
-// Function to fetch product data
-const fetchProductData = (url) => {
+  // Function to fetch product data to display on canvas
+  const fetchProductData = (url) => {
     let content;
     if (url) {
       return fetch(url)
@@ -15,48 +15,8 @@ const fetchProductData = (url) => {
         });
     }
   };
-  
-  const script = function (props) {
-    console.log('props',props)
-    // Function to fetch product data
-    const fetchProductData = (url) => {
-      if (url) {
-        return fetch(url)
-          .then((response) => response.json())
-          .then((data) => {
-            // Process product data and set the component's content
-            generateProductContent(data);
-          })
-          .catch((error) => {
-            console.error("Error fetching product data:", error);
-          });
-      }
-    };
-    
-    // Function to generate product content
-    function generateProductContent(data) {
-      // Generate HTML content for displaying products
-      let content = "";
-      data?.forEach((item) => {
-        content += `<div class="product-item">  
-          <h3 id="product-name" class="product-name">${item.productName}</h3>
-          <img id="product-image" class="product-image" src="${item.picture}" alt="${item.productName}" style="width: 375px; height: auto;">
-          <p id="product-description" class="product-description">${item.description}</p>
-          
-        </div>`;
-      });
-      document.getElementsByClassName('product-component')[0].innerHTML = content;
-      console.log(data);
-      console.log(content);
-    }
-  
-    window.addEventListener("load", () => {
-      fetchProductData(props.apiUrl); // Call fetchProductData with the current context
-    });
-    console.log(props);
-  };
-  
-  // Function to generate product content OUTSIDE
+
+  // Function to generate product content to display on canvas
   function generateProductContent(data) {
     // Generate HTML content for displaying products
     let content = '<div class="product-component">';
@@ -70,19 +30,57 @@ const fetchProductData = (url) => {
     content += "</div>";
     return content;
   }
-  
+
+  const script = function (props) {
+    const fetchProductData = (url) => {
+      if (url) {
+        return fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            // Process product data and set the component's content
+            generateProductContent(data);
+          })
+          .catch((error) => {
+            console.error("Error fetching product data:", error);
+          });
+      }
+    };
+    function generateProductContent(data) {
+      let content = "";
+      data?.forEach((item) => {
+        content += `<div class="product-item">  
+          <h3 id="product-name" class="product-name">${item.productName}</h3>
+          <img id="product-image" class="product-image" src="${item.picture}" alt="${item.productName}" style="width: 375px; height: auto;">
+          <p id="product-description" class="product-description">${item.description}</p> 
+          </div>`;
+      });
+      const els = document.querySelectorAll(".product-component");
+      Array.prototype.forEach.call(els, (_, idx) => {
+        document.getElementsByClassName("product-component")[idx].innerHTML =
+          content;
+      });
+    }
+
+    window.addEventListener("load", () => {
+      fetchProductData(props.apiUrl);
+    });
+  };
+
+  //Component type
   editor.DomComponents.addType("product-component", {
     model: {
       defaults: {
         script,
-        apiUrl: "http://localhost:3001/products", // Replace with your products API endpoint
+        apiUrl: "http://localhost:3001/products",
         content: "",
-        addButton:true,
-        traits:[{
-            name:'addButton',
-            type: 'checkbox',
+        addButton: true,
+        traits: [
+          {
+            name: "addButton",
+            type: "checkbox",
             changeProp: true,
-        }],
+          },
+        ],
         "script-props": ["fetchProductData", "apiUrl"],
       },
     },
@@ -95,7 +93,8 @@ const fetchProductData = (url) => {
       },
     },
   });
-  
+
+  //Adding Component
   editor.BlockManager.add("product-block", {
     label: "Product Block",
     category: "Dynamic Blocks",
@@ -103,6 +102,4 @@ const fetchProductData = (url) => {
       type: "product-component",
     },
   });
-  
-  
 };
