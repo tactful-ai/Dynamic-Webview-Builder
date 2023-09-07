@@ -169,11 +169,15 @@ export function Builder() {
         <p id="faq-ans" class="faq-ans" >${item.answer}</p>
       </div>`;
         });
-        const els = document.querySelectorAll('.faq-component');
-        console.log("els",els)
+        const els = document.querySelectorAll(".faq-component");
+        console.log("els", els);
         Array.prototype.forEach.call(els, (_, idx) => {
-          console.log("elements",document.getElementsByClassName('faq-component')[idx])
-          document.getElementsByClassName('faq-component')[idx].innerHTML = content
+          console.log(
+            "elements",
+            document.getElementsByClassName("faq-component")[idx]
+          );
+          document.getElementsByClassName("faq-component")[idx].innerHTML =
+            content;
         });
         console.log(data);
         console.log(content);
