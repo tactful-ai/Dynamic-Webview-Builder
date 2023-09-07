@@ -3,6 +3,7 @@ import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
 import { defineCustomBlocks } from "/src/costumBlocks/customBlocks";
 import { itemDetailsBlock } from "/src/costumBlocks/itemDetails";
+import {customButton} from "/src/costumBlocks/customButton"
 import { message } from "antd";
 
 export function Builder() {
@@ -179,7 +180,7 @@ export function Builder() {
         console.log(content);
       }
 
-      window.addEventListener("load", (event) => {
+      window.addEventListener("load", () => {
         fetchFAQData(props.apiUrl); // Call fetchFAQData with the current context
       });
       console.log(props);
@@ -230,6 +231,7 @@ export function Builder() {
       // content: `<div id="id" data-gjs-type="faq-component" ></div>`,
     });
 
+    // customButton(editor);
     itemDetailsBlock(editor);
     defineCustomBlocks(editor);
     window.editor = editor;
