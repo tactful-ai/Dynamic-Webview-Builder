@@ -5,6 +5,7 @@ import { defineCustomBlocks } from "/src/customBlocks/customBlocks";
 import { itemDetailsBlock } from "/src/customBlocks/itemDetails";
 import { faqContent } from "/src/customBlocks/faqContent";
 import { customText } from "/src/customBlocks/customText";
+import { customButton } from "/src/customBlocks/customButton";
 import { message } from "antd";
 
 export function Builder() {
@@ -125,8 +126,8 @@ export function Builder() {
       },
     ]);
 
-    // Custom Blocks
     faqContent(editor);
+    customButton(editor);
     itemDetailsBlock(editor);
     customText(editor);
     defineCustomBlocks(editor);
