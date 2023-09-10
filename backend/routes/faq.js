@@ -15,11 +15,7 @@ const questionsAndAnswers = [
   },
 ];
 
-const dynamicTexts = [
-  { id: "1", text: "lol" },
-  { id: "2", text: "xd" },
-  { id: "3", text: "wow" },
-];
+const dynamicTexts = [{ text: "Hello" }, { text: "Welcome" }];
 
 router.get("/", (req, res) => {
   res.json(questionsAndAnswers);

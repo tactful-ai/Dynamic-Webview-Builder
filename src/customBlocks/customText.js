@@ -12,20 +12,12 @@ export const customText = (editor) => {
         });
     }
   };
-  // Function to generate text based on the ID
   function generateText(data) {
-    const textMap = {};
-
-    // Map IDs to their corresponding text values
-    data?.forEach((item) => {
-      textMap[item.id] = item.text;
-    });
-
     let content = '<div class="custom-text">';
-    Object.entries(textMap).forEach(([id, text]) => {
+    data?.forEach((item) => {
       content += `<div class="text-item">  
-        <p id="text-paragraph" class="text-paragraph" >${text}</p>
-      </div>`;
+      <p id="text-paragraph" class="text-paragraph" >${item.text}</p>
+    </div>`;
     });
     content += "</div>";
     return content;
@@ -48,14 +40,14 @@ export const customText = (editor) => {
     function generateText(data) {
       let content = "";
       data?.forEach((item) => {
-        const id = item.id;
-        const text = item.text;
         content += `<div class="text-item">  
-      <p id="text-paragraph-${id}" class="text-paragraph" >${text}</p>
-    </div>`;
+        <p id="text-paragraph" class="text-paragraph" >${item.text}</p>
+      </div>`;
       });
-      content += "</div>";
-      return content;
+      const els = document.querySelectorAll(".custom-text");
+      Array.prototype.forEach.call(els, (_, idx) => {
+        document.getElementsByClassName("custom-text")[idx].innerHTML = content;
+      });
     }
 
     window.addEventListener("load", (event) => {
@@ -84,7 +76,7 @@ export const customText = (editor) => {
   });
   // Adding Custom Text Component
   editor.BlockManager.add("custom-text-block", {
-    label: "Custom Text Block",
+    label: "Custom Text",
     category: "Custom Components",
     content: {
       type: "custom-text-component",
