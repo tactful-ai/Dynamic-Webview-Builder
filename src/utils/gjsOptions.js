@@ -10,7 +10,7 @@ const gjsOptions = {
         id: "mobileLandscape",
         name: "Mobile landscape",
         width: "568px",
-        widthMedia: "768px",
+        widthMedia: "2000px",
       },
       {
         id: "mobilePortrait",
@@ -22,7 +22,7 @@ const gjsOptions = {
         id: "tablet",
         name: "Tablet",
         width: "770px",
-        widthMedia: "992px",
+        widthMedia: "2000px",
       },
     ],
   },
@@ -66,7 +66,7 @@ const gjsOptions = {
     pages: [
       {
         name: "Home page",
-        component: `<h1>Design Your Webview</h1>`,
+        component: `<h1>Design Your Webview</h1>`
       },
     ],
   },

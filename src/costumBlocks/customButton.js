@@ -1,53 +1,59 @@
 export const customButton =(editor)=>{
     const buttonType = 'custom-button';
 
-    const script =function(props){
-     const actionURL = props.url;
-     const method = props.method;
-     const data =null;
-     const action = props.actions;
-     const requestOptions = {
-      method: method,
-      headers: {
-        'Content-Type': 'application/json', // Set the appropriate content type
-      },
-      // Include the request body for POST requests
-      body: method === 'POST' ? JSON.stringify(data) : null,
-    };
-  
-      document.getElementById('custom-button').addEventListener('click',
-      function (){
-        if(action == "eval"){
-          eval(actionURL)
-         }
-         else{
-          fetch(actionURL, requestOptions)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
+    const script = function (props) {
+      const actionURL = props.url;
+      const method = props.method;
+      const data = null;
+      const action = props.actions;
+    
+      const requestOptions = {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        body: method === 'POST' ? JSON.stringify(data) : null,
+      };
+    
+      const handleResponse = (response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); 
+      };
+    
+      document.getElementById('custom-button').addEventListener('click', function () {
+        if (action === 'eval') {
+          eval(actionURL);
+        } else {
+          if (method === 'POST') {
+            fetch(actionURL, requestOptions)
+              .then(handleResponse)
+              .then((data) => {
+                console.log('POST Request succeeded:', data);
+                return data;
+              })
+              .catch((error) => {
+                console.error('There was a problem with the POST request:', error);
+                throw error;
+              });
+          } else if (method === 'GET') {
+            fetch(actionURL)
+              .then(handleResponse)
+              .then((data) => {
+                console.log('GET Request succeeded:', data);
+                return data;
+              })
+              .catch((error) => {
+                console.error('There was a problem with the GET request:', error);
+                throw error; 
+              });
           }
-          // Handle the response here
-          return response.json(); // If expecting JSON response
-        })
-        .then((data) => {
-          // Handle the data from the response
-          console.log('Request succeeded:', data);
-          return data;
-        })
-        .catch((error) => {
-          // Handle errors here
-          console.error('There was a problem with the fetch operation:', error);
-          throw error; // Rethrow the error for further handling
-        });
-         }
-      }
-      )
-  
+        }
+      });
     };
+    
     editor.DomComponents.addType(buttonType, {
-      isComponent: function (el) {
-        return el.tagName == 'BUTTON';
-      },
   
       model: {
         defaults: {

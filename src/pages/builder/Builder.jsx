@@ -231,7 +231,7 @@ export function Builder() {
       // content: `<div id="id" data-gjs-type="faq-component" ></div>`,
     });
 
-    // customButton(editor);
+    customButton(editor);
     itemDetailsBlock(editor);
     defineCustomBlocks(editor);
     window.editor = editor;
