@@ -84,7 +84,7 @@ export const customButton =(editor)=>{
               label: 'Actions',
               type: 'select',
               options: [
-                { value: 'eval', name: 'eval' },
+                { value: 'eval', name: 'Execute' },
                 { value: 'handleHttpRequest', name: 'handleHttpRequest' },
               ],
               changeProp: true,
