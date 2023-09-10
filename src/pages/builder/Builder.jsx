@@ -4,6 +4,7 @@ import { editorPlugins } from "/src/utils/plugins";
 import { defineCustomBlocks } from "/src/customBlocks/customBlocks";
 import { itemDetailsBlock } from "/src/customBlocks/itemDetails";
 import { faqContent } from "/src/customBlocks/faqContent";
+import { customText } from "/src/customBlocks/customText";
 import { message } from "antd";
 
 export function Builder() {
@@ -127,6 +128,7 @@ export function Builder() {
     // Custom Blocks
     faqContent(editor);
     itemDetailsBlock(editor);
+    customText(editor);
     defineCustomBlocks(editor);
     window.editor = editor;
   };

@@ -15,8 +15,18 @@ const questionsAndAnswers = [
   },
 ];
 
+const dynamicTexts = [
+  { id: "1", text: "lol" },
+  { id: "2", text: "xd" },
+  { id: "3", text: "wow" },
+];
+
 router.get("/", (req, res) => {
   res.json(questionsAndAnswers);
+});
+
+router.get("/custom-text", (req, res) => {
+  res.json(dynamicTexts);
 });
 
 module.exports = router;
