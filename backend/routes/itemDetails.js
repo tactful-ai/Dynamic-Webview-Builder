@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+
+// Sample product data
 const products = [
   {
     id: "1",
@@ -17,14 +19,9 @@ const products = [
     description: "Description of Product 2",
     ratings: "3.5",
   },
-  // {
-  //   id:'3',
-  //   productName: "Product 3",
-  //   picture: "https://img.freepik.com/photos-gratuite/appareil-numerique-sans-fil-casque-rose_53876-96804.jpg?w=360",
-  //   description: "Description of Product 3",
-  // },
 ];
 
+// Define a GET route that returns the product data
 router.get("/", (req, res) => {
   res.json(products);
 });

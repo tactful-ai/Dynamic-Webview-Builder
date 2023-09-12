@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// Define two sample questions and answers
+// Sample data representing questions and answers
 const questionsAndAnswers = [
   {
     question: "What is GrapesJS?",
@@ -15,14 +15,9 @@ const questionsAndAnswers = [
   },
 ];
 
-const dynamicTexts = [{ text: "Hello" }, { text: "Welcome" }];
-
+// Define a GET route that returns the questions and answers
 router.get("/", (req, res) => {
   res.json(questionsAndAnswers);
-});
-
-router.get("/custom-text", (req, res) => {
-  res.json(dynamicTexts);
 });
 
 module.exports = router;

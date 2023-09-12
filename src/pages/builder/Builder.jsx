@@ -76,7 +76,7 @@ export function Builder() {
         id: "save-db",
         className: "fa fa-floppy-o",
         command: "save-db",
-        attributes: { title: "Save DB" },
+        attributes: { title: "Save Draft" },
       },
     ]);
 
@@ -122,7 +122,7 @@ export function Builder() {
         id: "publish",
         className: "fa fa-paper-plane",
         command: "publish",
-        attributes: { title: "publish" },
+        attributes: { title: "Publish" },
       },
     ]);
 
