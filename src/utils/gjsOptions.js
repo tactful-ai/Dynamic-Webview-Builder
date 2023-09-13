@@ -26,33 +26,6 @@ const gjsOptions = {
       },
     ],
   },
-  storageManager: {
-    type: "remote",
-    stepsBeforeSave: 1,
-    options: {
-      remote: {
-        urlStore: "http://localhost:3001/save-draft",
-        onStore: (data) => {
-          console.log("onStore", data);
-          return { data };
-        },
-      },
-    },
-    autosave: false,
-    autoload: true,
-    contentTypeJson: true,
-    storeComponents: true,
-    storeStyles: true,
-    storeHtml: true,
-    storeCss: true,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    json_encode: {
-      "gjs-html": [],
-      "gjs-css": [],
-    },
-  },
   undoManager: { trackSelection: false },
   selectorManager: { componentFirst: true },
   projectData: {
@@ -66,7 +39,7 @@ const gjsOptions = {
     pages: [
       {
         name: "Home page",
-        component: `<h1>Design Your Webview</h1>`
+        component: `<h1>Design Your Webview</h1>`,
       },
     ],
   },
