@@ -1,76 +1,63 @@
 export const customButton = (editor) => {
   const buttonType = "custom-button";
-
+  
   const script = function (props) {
     const actionURL = props.url;
     const method = props.method;
     const action = props.actions;
 
-    const handleResponse = (response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
+    const handleAlertAction = (actionURL) => {
+      alert(actionURL);
     };
-    document
-      .getElementById("custom-button")
-      .addEventListener("click", function () {
-        if (action === "alert") {
-          alert(actionURL);
-        } else {
-          if (method === "POST" && actionURL) {
-            var form = document.getElementById("custom-button").parentElement;
-
-            var formData = {};
-            var inputs = form.querySelectorAll("input, select, textarea");
-            inputs.forEach(function (input) {
-              var name = input.name;
-              var value = input.value;
-        
-              if (name && value) {
-                formData[name] = value;
-              }
-            });
-        
-            const requestOptions = {
-              method: method,
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: method === "POST" ? JSON.stringify(formData) : null,
-            };
-            console.log("requestOptions",requestOptions)
-            fetch(actionURL, requestOptions)
-              .then(handleResponse)
-              .then((data) => {
-                console.log("POST Request succeeded:", data);
-                return data;
-              })
-              .catch((error) => {
-                console.error(
-                  "There was a problem with the POST request:",
-                  error
-                );  
-                throw error;
-              });
-          } else if (method === "GET" && actionURL) {
-            fetch(actionURL)
-              .then(handleResponse)
-              .then((data) => {
-                console.log("GET Request succeeded:", data);
-                return data;
-              })
-              .catch((error) => {
-                console.error(
-                  "There was a problem with the GET request:",
-                  error
-                );
-                throw error;
-              });
-          }
+    
+    const handleHttpRequestAction = async (actionURL, method, form) => {
+      const formData = {};
+      const inputs = form.querySelectorAll("input, select, textarea");
+    
+      inputs.forEach(function (input) {
+        const name = input.name;
+        const value = input.value;
+    
+        if (name && value) {
+          formData[name] = value;
         }
       });
+    
+      const requestOptions = {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: method === "POST" ? JSON.stringify(formData) : null,
+      };
+    
+      try {
+        const response = await fetch(actionURL, requestOptions);
+        if (!response.ok) {
+          if (response.status === 0) {
+            throw new Error("Network error: CORS policy may be blocking the request.");
+          } else {
+            throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
+          }
+        }
+    
+        const data = await response.json();
+        console.log("Request succeeded:", data);
+      } catch (error) {
+        console.error("There was a problem with the request:", error);
+      }
+    };  
+  
+    document.getElementById("custom-button").addEventListener("click", async function () {
+      if (action === "alert") {
+        handleAlertAction(actionURL);
+      } else if (action === "handleHttpRequest" && method && actionURL) {
+        const form = document.getElementById("custom-button").parentElement;
+        await handleHttpRequestAction(actionURL, method, form);
+      }
+    });
   };
+  
 
   editor.DomComponents.addType(buttonType, {
     model: {
@@ -79,7 +66,7 @@ export const customButton = (editor) => {
         tagName: "button",
         attributes: { type: "button" },
         text: "Send",
-        actions: "",
+        actions: "handleHttpRequest",
         url: "",
         method: "GET",
         traits: [
@@ -92,14 +79,14 @@ export const customButton = (editor) => {
             label: "Actions",
             type: "select",
             options: [
-              { value: "eval", name: "Execute" },
+              { value: "alert", name: "alert" },
               { value: "handleHttpRequest", name: "handleHttpRequest" },
             ],
             changeProp: true,
           },
           {
             name: "url",
-            label: "URL",
+            label: "URL/Alert message",
             type: "text",
             changeProp: true,
           },
