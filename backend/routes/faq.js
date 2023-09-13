@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-// Sample data representing questions and answers
 const questionsAndAnswers = [
   {
     question: "What is GrapesJS?",
@@ -20,7 +19,6 @@ const questionsAndAnswers = [
   // },
 ];
 
-// Define a GET route that returns the questions and answers
 router.get("/", (req, res) => {
   res.json(questionsAndAnswers);
 });
