@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
@@ -7,8 +7,10 @@ import { itemDetailsBlock } from "/src/customBlocks/itemDetails";
 import { faqContent } from "/src/customBlocks/faqContent";
 import { customText } from "/src/customBlocks/customText";
 import { customButton } from "/src/customBlocks/customButton";
+import {defineformBlocks}from "/src/customBlocks/formBlocks";
 import { saveDraft } from "/src/panelButtons/saveDraft";
 import { publish } from "/src/panelButtons/publish";
+import { message } from "antd";
 
 export function Builder() {
   const [generatedLink, setGeneratedLink] = useState("");
@@ -68,6 +70,7 @@ export function Builder() {
       },
     ]);
 
+    defineformBlocks(editor);
     faqContent(editor);
     customButton(editor);
     itemDetailsBlock(editor);
