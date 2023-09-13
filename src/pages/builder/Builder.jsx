@@ -7,7 +7,7 @@ import { itemDetailsBlock } from "/src/customBlocks/itemDetails";
 import { faqContent } from "/src/customBlocks/faqContent";
 import { customText } from "/src/customBlocks/customText";
 import { customButton } from "/src/customBlocks/customButton";
-import {defineformBlocks}from "/src/customBlocks/formBlocks";
+import { defineFormBlocks } from "/src/customBlocks/formBlocks";
 import { saveDraft } from "/src/panelButtons/saveDraft";
 import { publish } from "/src/panelButtons/publish";
 import { message } from "antd";
@@ -70,7 +70,7 @@ export function Builder() {
       },
     ]);
 
-    defineformBlocks(editor);
+    defineFormBlocks(editor);
     faqContent(editor);
     customButton(editor);
     itemDetailsBlock(editor);

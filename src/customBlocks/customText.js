@@ -1,4 +1,5 @@
 export const customText = (editor) => {
+  // Function to fetch text to display on canvas
   const fetchText = (url) => {
     if (url) {
       return fetch(url)
@@ -8,16 +9,23 @@ export const customText = (editor) => {
           return content;
         })
         .catch((error) => {
-          console.error("Error fetching FAQ data:", error);
+          console.error("Error fetching text", error);
         });
     }
   };
+  // Function to generate text to display on canvas
   function generateText(data) {
+    if (!Array.isArray(data)) {
+      throw new Error("Input data is not an array");
+    }
     let content = '<div class="custom-text">';
-    data?.forEach((item) => {
+    data.forEach((item) => {
+      if (!item || typeof item !== "object" || !item.text) {
+        throw new Error("Invalid data format");
+      }
       content += `<div class="text-item">  
-      <p id="text-paragraph" class="text-paragraph" >${item.text}</p>
-    </div>`;
+        <p id="text-paragraph" class="text-paragraph" >${item.text}</p>
+      </div>`;
     });
     content += "</div>";
     return content;
@@ -38,12 +46,23 @@ export const customText = (editor) => {
     };
 
     function generateText(data) {
+      if (!Array.isArray(data)) {
+        throw new Error("Input data is not an array");
+      }
       let content = "";
-      data?.forEach((item) => {
-        content += `<div class="text-item">  
-        <p id="text-paragraph" class="text-paragraph" >${item.text}</p>
-      </div>`;
-      });
+      try {
+        data?.forEach((item) => {
+          if (!item || typeof item !== "object" || !item.text) {
+            throw new Error("Invalid data format");
+          }
+          content += `<div class="text-item">  
+            <p id="text-paragraph" class="text-paragraph">${item.text}</p>
+          </div>`;
+        });
+      } catch (error) {
+        console.error("Error in generateText:", error);
+        throw error;
+      }
       const els = document.querySelectorAll(".custom-text");
       Array.prototype.forEach.call(els, (_, idx) => {
         document.getElementsByClassName("custom-text")[idx].innerHTML = content;
@@ -60,7 +79,7 @@ export const customText = (editor) => {
     model: {
       defaults: {
         script,
-        apiUrl: "http://localhost:3001/faq/custom-text",
+        apiUrl: "http://localhost:3001/dynamic-text",
         content: "",
         "script-props": ["fetchText", "apiUrl"],
       },
