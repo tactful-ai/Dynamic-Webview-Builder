@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
-// Sample product data
 const products = [
   {
     id: "1",
@@ -21,7 +19,6 @@ const products = [
   },
 ];
 
-// Define a GET route that returns the product data
 router.get("/", (req, res) => {
   res.json(products);
 });

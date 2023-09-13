@@ -13,6 +13,11 @@ const questionsAndAnswers = [
     answer:
       "You can integrate an API with GrapesJS by creating custom components that fetch and display data from the API.",
   },
+  // {
+  //   question: "How can I integrate an API with GrapesJS?",
+  //   answer:
+  //     "You can integrate an API with GrapesJS by creating custom components that fetch and display data from the API.",
+  // },
 ];
 
 // Define a GET route that returns the questions and answers

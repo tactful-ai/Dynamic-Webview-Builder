@@ -4,16 +4,7 @@ export const customButton = (editor) => {
   const script = function (props) {
     const actionURL = props.url;
     const method = props.method;
-    const data = null;
     const action = props.actions;
-
-    const requestOptions = {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: method === "POST" ? JSON.stringify(data) : null,
-    };
 
     const handleResponse = (response) => {
       if (!response.ok) {
@@ -21,14 +12,34 @@ export const customButton = (editor) => {
       }
       return response.json();
     };
-
     document
       .getElementById("custom-button")
       .addEventListener("click", function () {
-        if (action === "eval") {
-          eval(actionURL);
+        if (action === "alert") {
+          alert(actionURL);
         } else {
-          if (method === "POST") {
+          if (method === "POST" && actionURL) {
+            var form = document.getElementById("custom-button").parentElement;
+
+            var formData = {};
+            var inputs = form.querySelectorAll("input, select, textarea");
+            inputs.forEach(function (input) {
+              var name = input.name;
+              var value = input.value;
+        
+              if (name && value) {
+                formData[name] = value;
+              }
+            });
+        
+            const requestOptions = {
+              method: method,
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: method === "POST" ? JSON.stringify(formData) : null,
+            };
+            console.log("requestOptions",requestOptions)
             fetch(actionURL, requestOptions)
               .then(handleResponse)
               .then((data) => {
@@ -39,10 +50,10 @@ export const customButton = (editor) => {
                 console.error(
                   "There was a problem with the POST request:",
                   error
-                );
+                );  
                 throw error;
               });
-          } else if (method === "GET") {
+          } else if (method === "GET" && actionURL) {
             fetch(actionURL)
               .then(handleResponse)
               .then((data) => {
@@ -74,16 +85,6 @@ export const customButton = (editor) => {
         traits: [
           {
             name: "text",
-            changeProp: true,
-          },
-          {
-            type: "select",
-            name: "type",
-            options: [
-              { value: "button" },
-              { value: "submit" },
-              { value: "reset" },
-            ],
             changeProp: true,
           },
           {
