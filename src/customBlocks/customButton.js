@@ -1,16 +1,9 @@
 export const customButton = (editor) => {
   const buttonType = "custom-button";
   
-  const script = function (props) {
-    const actionURL = props.url;
-    const method = props.method;
-    const action = props.actions;
-
-    const handleAlertAction = (actionURL) => {
-      alert(actionURL);
-    };
-    
-    const handleHttpRequestAction = async (actionURL, method, form) => {
+  const script = function () {   
+     
+    const handleHttpRequestAction = async (actionURL, method, form,sendParams,token) => {
       const formData = {};
       const inputs = form.querySelectorAll("input, select, textarea");
     
@@ -22,17 +15,27 @@ export const customButton = (editor) => {
           formData[name] = value;
         }
       });
+
+      let finalURL = actionURL;
+      
+      if (sendParams) {
+        const params = new URLSearchParams(formData);
+        finalURL += `?${params.toString()}`;
+      }
+      console.log("finalURL",finalURL)
     
       const requestOptions = {
         method: method,
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+
         },
-        body: method === "POST" ? JSON.stringify(formData) : null,
+        body: method === "POST" && !sendParams? JSON.stringify(formData) : null,
       };
     
       try {
-        const response = await fetch(actionURL, requestOptions);
+        const response = await fetch(finalURL, requestOptions);
         if (!response.ok) {
           if (response.status === 0) {
             throw new Error("Network error: CORS policy may be blocking the request.");
@@ -47,15 +50,25 @@ export const customButton = (editor) => {
         console.error("There was a problem with the request:", error);
       }
     };  
-  
-    document.getElementById("custom-button").addEventListener("click", async function () {
-      if (action === "alert") {
-        handleAlertAction(actionURL);
-      } else if (action === "handleHttpRequest" && method && actionURL) {
-        const form = document.getElementById("custom-button").parentElement;
-        await handleHttpRequestAction(actionURL, method, form);
-      }
-    });
+
+    const customButtons = document.querySelectorAll(".custom-button");
+    console.log(customButtons.length)
+    customButtons.forEach((button) => {
+        button.addEventListener("click", async function () {
+        const actionURL = this.getAttribute("url");
+        const method = this.getAttribute("method");
+        const action = this.getAttribute("actions");
+        const sendParams = this.getAttribute("sendParams");
+        const token = this.getAttribute("token");
+        if (action === "alert") {
+          console.log("alert",actionURL)
+          alert(actionURL);
+        } else if (action === "handleHttpRequest" && method && actionURL) {
+          const form = this.parentElement;
+          await handleHttpRequestAction(actionURL, method, form,sendParams,token);
+        }
+      })
+    })
   };
   
 
@@ -66,9 +79,10 @@ export const customButton = (editor) => {
         tagName: "button",
         attributes: { type: "button" },
         text: "Send",
-        actions: "handleHttpRequest",
+        actions: "",
         url: "",
-        method: "GET",
+        method: "",
+        token:"",
         traits: [
           {
             name: "text",
@@ -82,13 +96,11 @@ export const customButton = (editor) => {
               { value: "alert", name: "alert" },
               { value: "handleHttpRequest", name: "handleHttpRequest" },
             ],
-            changeProp: true,
           },
           {
             name: "url",
             label: "URL/Alert message",
             type: "text",
-            changeProp: true,
           },
           {
             name: "method",
@@ -98,10 +110,18 @@ export const customButton = (editor) => {
               { value: "GET", name: "GET" },
               { value: "POST", name: "POST" },
             ],
-            changeProp: true,
+          },
+          {
+            name: "sendParams",
+            label: "Send in Params",
+            type: "checkbox",
+          },
+          {
+            name: "token",
+            label: "Token",
+            type: "text",
           },
         ],
-        "script-props": ["url", "method", "actions"],
       },
       init: function () {
         const comps = this.components();
@@ -123,6 +143,6 @@ export const customButton = (editor) => {
     label: "Custom Button",
     category: "Custom Components",
     attributes: { class: "fa fa-square" },
-    content: `<button data-gjs-type="${buttonType}" id='custom-button' data-gjs-name="Custom Button">Click Me</button>`,
+    content: `<button data-gjs-type="${buttonType}" id="custom-button" class="custom-button" data-gjs-name="Custom Button">Click Me</button>`,
   });
 };

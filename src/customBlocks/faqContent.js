@@ -58,7 +58,7 @@ export const faqContent = (editor) => {
       });
     }
 
-    window.addEventListener("load", (event) => {
+    window.addEventListener("load", () => {
       fetchFAQData(props.apiUrl);
     });
   };
