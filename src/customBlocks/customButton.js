@@ -52,22 +52,26 @@ export const customButton = (editor) => {
     };  
 
     const customButtons = document.querySelectorAll(".custom-button");
-    console.log(customButtons.length)
     customButtons.forEach((button) => {
+      if(button.getAttribute('listener') !== 'true'){
         button.addEventListener("click", async function () {
+
+        button.setAttribute('listener', 'true');
+
         const actionURL = this.getAttribute("url");
         const method = this.getAttribute("method");
         const action = this.getAttribute("actions");
         const sendParams = this.getAttribute("sendParams");
         const token = this.getAttribute("token");
+        
         if (action === "alert") {
-          console.log("alert",actionURL)
           alert(actionURL);
         } else if (action === "handleHttpRequest" && method && actionURL) {
           const form = this.parentElement;
           await handleHttpRequestAction(actionURL, method, form,sendParams,token);
         }
       })
+    }
     })
   };
   
