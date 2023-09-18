@@ -15,6 +15,7 @@ const publish = require("./routes/publish");
 const faq = require("./routes/faq");
 const itemDetails = require("./routes/itemDetails");
 const dynamicText = require("./routes/dynamicText");
+const allTemplates = require("./routes/allTemplates");
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use("/publish", publish);
 app.use("/faq", faq);
 app.use("/products", itemDetails);
 app.use("/dynamic-text", dynamicText);
+app.use("/templates",allTemplates)
 
 // Establish a connection with the MongoDB database
 mongoose

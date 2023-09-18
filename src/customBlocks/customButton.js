@@ -3,35 +3,64 @@ export const customButton = (editor) => {
   
   const script = function () {   
      
-    const handleHttpRequestAction = async (actionURL, method, form,sendParams,token) => {
+    const handleHttpRequestAction = async (actionURL, method, form,token,customHeaders) => {
       const formData = {};
+      const pramsData = {};
       const inputs = form.querySelectorAll("input, select, textarea");
-    
+
       inputs.forEach(function (input) {
         const name = input.name;
         const value = input.value;
-    
-        if (name && value) {
+        const sendInBody = input.getAttribute('sendinbody');
+        console.log("name",name)
+        console.log("value",value)
+        console.log("sendInBody",sendInBody)
+
+        if (name && value && sendInBody=='true') {
           formData[name] = value;
         }
+        else if(name && value && sendInBody =='false' ){
+          pramsData[name]= value;
+        }
       });
+      console.log(formData)
+      console.log("pramsData",pramsData)
+
 
       let finalURL = actionURL;
       
-      if (sendParams) {
-        const params = new URLSearchParams(formData);
+      if (token) {
+        // Append token to the URL
+        finalURL += `?token=${token}`;
+      }
+      
+      if (pramsData) {
+        const params = new URLSearchParams(pramsData);
+        console.log(pramsData)
         finalURL += `?${params.toString()}`;
       }
       console.log("finalURL",finalURL)
+      let headers = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      };
+
+      // Parse and add custom headers
+      if (customHeaders) {
+        const lines = customHeaders.split(",");
+        lines.forEach((line) => {
+          const [key, value] = line.split(":");
+          if (key && value) {
+            headers[key.trim()] = value.trim();
+          }
+        });
+      }
+      console.log(headers)
     
       const requestOptions = {
         method: method,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-
-        },
-        body: method === "POST" && !sendParams? JSON.stringify(formData) : null,
+        headers: headers,
+        body: method === "POST"? JSON.stringify(formData) : null,
       };
     
       try {
@@ -61,14 +90,14 @@ export const customButton = (editor) => {
         const actionURL = this.getAttribute("url");
         const method = this.getAttribute("method");
         const action = this.getAttribute("actions");
-        const sendParams = this.getAttribute("sendParams");
         const token = this.getAttribute("token");
+        const customHeaders = this.getAttribute("customHeaders");
         
         if (action === "alert") {
           alert(actionURL);
         } else if (action === "handleHttpRequest" && method && actionURL) {
           const form = this.parentElement;
-          await handleHttpRequestAction(actionURL, method, form,sendParams,token);
+          await handleHttpRequestAction(actionURL, method, form,token,customHeaders);
         }
       })
     }
@@ -116,15 +145,15 @@ export const customButton = (editor) => {
             ],
           },
           {
-            name: "sendParams",
-            label: "Send in Params",
-            type: "checkbox",
-          },
-          {
             name: "token",
             label: "Token",
             type: "text",
           },
+          {
+            name: "customHeaders",
+            label: "Custom Headers",
+            type: "textarea",
+          }
         ],
       },
       init: function () {
