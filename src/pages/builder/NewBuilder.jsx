@@ -1,6 +1,4 @@
-import { useState,useEffect } from "react";
-import { useParams } from "react-router-dom";
-
+import { useState } from "react";
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
@@ -15,45 +13,9 @@ import { saveDraft } from "/src/panelButtons/saveDraft";
 import { publish } from "/src/panelButtons/publish";
 import { message } from "antd";
 
-export function Builder() {
-  const { id } = useParams();
-
+export function NewBuilder() {
   const [generatedLink, setGeneratedLink] = useState("");
-  const [templateData, setTemplateData] = useState(null);
-
-  useEffect(() => {
-    // Fetch the template data based on the :id parameter from the backend
-    const fetchTemplateData = async () => {
-      try {
-        const response = await fetch(`http://localhost:3001/templates/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch template data.");
-        }
-        const data = await response.json();
-        setTemplateData(data); // Update the state with the fetched template data
-      } catch (error) {
-        console.error("Error fetching template data:", error);
-      }
-    };
-
-    fetchTemplateData(); // Call the fetchTemplateData function when the component mounts
-  }, [id]);
-
   const onEditor = (editor) => {
-
-  editor.on('load', () => {
-    console.log(templateData.content)
-    //  const content =`
-    // {${templateData.content}.match(/<script>(.*?)<\/script>/g)?.map((scriptTag, index) => (
-    //   <pre key={index}>{scriptTag}</pre>
-    // ))}`
-    // console.log(content)
-
-    editor.setComponents(templateData.content);
-    editor.setStyle(templateData.style);
- });
-
-
     const editorPanels = editor.Panels;
     const editorCommands = editor.Commands;
     const panelViews = editorPanels.addPanel({
@@ -108,8 +70,6 @@ export function Builder() {
         attributes: { title: "Publish" },
       },
     ]);
-    // editor.setComponents(templateData);
-    // // editor.setStyle(templateData.css);
 
     defineFormBlocks(editor);
     faqContent(editor);
@@ -119,7 +79,6 @@ export function Builder() {
     customText(editor);
     defineCustomBlocks(editor);
     window.editor = editor;
-
   };
 
   return (
@@ -142,17 +101,13 @@ export function Builder() {
             }}
           />
         </div>
-        {templateData && ( // Render the GjsEditor only when templateData is available
-          <GjsEditor
-            grapesjs="https://unpkg.com/grapesjs"
-            grapesjsCss="https://unpkg.com/grapesjs/dist/css/grapes.min.css"
-            options={gjsOptions}
-            plugins={editorPlugins}
-            onEditor={onEditor}
-            // initialContent={templateData.content} // Pass the template content as initial content
-            // initialStyle={templateData.style}     // Pass the template style as initial style
-          />
-        )}
+        <GjsEditor
+          grapesjs="https://unpkg.com/grapesjs"
+          grapesjsCss="https://unpkg.com/grapesjs/dist/css/grapes.min.css"
+          options={gjsOptions}
+          plugins={editorPlugins}
+          onEditor={onEditor}
+        />
       </div>
     </>
   );

@@ -37,7 +37,7 @@ export const customButton = (editor) => {
       if (pramsData) {
         const params = new URLSearchParams(pramsData);
         console.log(pramsData)
-        finalURL += `?${params.toString()}`;
+        finalURL += `&${params.toString()}`;
       }
       console.log("finalURL",finalURL)
       let headers = {
@@ -106,6 +106,7 @@ export const customButton = (editor) => {
   
 
   editor.DomComponents.addType(buttonType, {
+    isComponent: el => el.tagName == 'BUTTON',
     model: {
       defaults: {
         script,
@@ -176,6 +177,6 @@ export const customButton = (editor) => {
     label: "Custom Button",
     category: "Custom Components",
     attributes: { class: "fa fa-square" },
-    content: `<button data-gjs-type="${buttonType}" id="custom-button" class="custom-button" data-gjs-name="Custom Button">Click Me</button>`,
+    content: `<button data-gjs-type="custom-button" id="custom-button" class="custom-button" data-gjs-name="Custom Button" style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Click Me</button>`,
   });
 };

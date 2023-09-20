@@ -28,6 +28,12 @@ const gjsOptions = {
   },
   undoManager: { trackSelection: false },
   selectorManager: { componentFirst: true },
+  optsHtml: {
+    allowScripts: true,
+  },
+  parser: {
+    optionsHtml: { allowScripts: true }
+  },
   projectData: {
     assets: [
       "https://via.placeholder.com/350x250/78c5d6/fff",
