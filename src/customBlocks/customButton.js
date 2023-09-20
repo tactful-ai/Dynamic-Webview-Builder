@@ -123,6 +123,16 @@ export const customButton = (editor) => {
             changeProp: true,
           },
           {
+            type: 'select',
+            name: 'type',
+            label:'Type',
+            options: [ 
+              { value: 'button', name: 'button'},
+              { value: 'submit', name: 'submit'},
+              { value: 'reset', name: 'reset'},
+            ]
+          },
+          {
             name: "actions",
             label: "Actions",
             type: "select",
@@ -173,10 +183,10 @@ export const customButton = (editor) => {
     },
   });
 
-  editor.BlockManager.add(buttonType, {
-    label: "Custom Button",
-    category: "Custom Components",
-    attributes: { class: "fa fa-square" },
-    content: `<button data-gjs-type="custom-button" id="custom-button" class="custom-button" data-gjs-name="Custom Button" style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Click Me</button>`,
-  });
+  // editor.BlockManager.add(buttonType, {
+  //   label: "Custom Button",
+  //   category: "Custom Components",
+  //   attributes: { class: "fa fa-square" },
+  //   content: `<button data-gjs-type="custom-button" id="custom-button" class="custom-button" data-gjs-name="Custom Button" style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Click Me</button>`,
+  // });
 };

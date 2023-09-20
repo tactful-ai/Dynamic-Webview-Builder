@@ -45,7 +45,7 @@ export const defineFormBlocks = (editor) => {
   buttonBlock.set({
     label: "Button",
     content: `
-          <button style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
+          <button style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;" data-gjs-type="custom-button" id="custom-button" class="custom-button" data-gjs-name="Custom Button" >
           Click Me
           </button>`,
   });
@@ -87,7 +87,7 @@ export const defineFormBlocks = (editor) => {
           <textarea id="message" name="message" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;" required></textarea>
           </div>
   
-          <button type="submit" style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+          <button data-gjs-type="custom-button" id="custom-button" class="custom-button" data-gjs-name="Custom Button" style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
           </form>
       `,
   });
@@ -121,7 +121,7 @@ formBlock.set({
         <input type="text" id="scope" name="scope" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;" required>
       </div>
 
-      <button type="submit" style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+      <button data-gjs-type="custom-button" id="custom-button" class="custom-button" data-gjs-name="Custom Button"  style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
     </form>
   `,
 });
