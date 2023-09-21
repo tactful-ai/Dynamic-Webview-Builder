@@ -12,6 +12,7 @@ const mongoURL =
 // Define API endpoints
 const saveDraft = require("./routes/saveDraft");
 const publish = require("./routes/publish");
+const update = require("./routes/update");
 const faq = require("./routes/faq");
 const itemDetails = require("./routes/itemDetails");
 const dynamicText = require("./routes/dynamicText");
@@ -34,6 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 // Define route handlers
 app.use("/save-draft", saveDraft);
 app.use("/publish", publish);
+app.use("/update", update);
 app.use("/faq", faq);
 app.use("/products", itemDetails);
 app.use("/dynamic-text", dynamicText);

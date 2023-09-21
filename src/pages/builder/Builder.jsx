@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import GjsEditor from "@grapesjs/react";
@@ -11,9 +11,10 @@ import { customText } from "/src/customBlocks/customText";
 import { customButton } from "/src/customBlocks/customButton";
 import { customInput } from "/src/customBlocks/customInput";
 import { defineFormBlocks } from "/src/customBlocks/formBlocks";
-import { saveDraft } from "/src/panelButtons/saveDraft";
+import { update } from "/src/panelButtons/update";
 import { publish } from "/src/panelButtons/publish";
 import { message } from "antd";
+import { CopyField } from "@eisberg-labs/mui-copy-field";
 
 export function Builder() {
   const { id } = useParams();
@@ -38,21 +39,41 @@ export function Builder() {
 
     fetchTemplateData(); // Call the fetchTemplateData function when the component mounts
   }, [id]);
+  const { templateId } = useParams();
+
+  const copyToClipboard = () => {
+    // Create an input element to hold the link text
+    const linkInput = document.createElement("input");
+    linkInput.value = generatedLink;
+
+    // Append the input element to the document
+    document.body.appendChild(linkInput);
+
+    // Select the input text
+    linkInput.select();
+
+    // Copy the selected text to the clipboard
+    document.execCommand("copy");
+
+    // Remove the input element from the document
+    document.body.removeChild(linkInput);
+
+    // Show a success message
+    message.success("Link copied to clipboard");
+  };
 
   const onEditor = (editor) => {
+    editor.on("load", () => {
+      console.log(templateData.content);
+      //  const content =`
+      // {${templateData.content}.match(/<script>(.*?)<\/script>/g)?.map((scriptTag, index) => (
+      //   <pre key={index}>{scriptTag}</pre>
+      // ))}`
+      // console.log(content)
 
-  editor.on('load', () => {
-    console.log(templateData.content)
-    //  const content =`
-    // {${templateData.content}.match(/<script>(.*?)<\/script>/g)?.map((scriptTag, index) => (
-    //   <pre key={index}>{scriptTag}</pre>
-    // ))}`
-    // console.log(content)
-
-    editor.setComponents(templateData.content);
-    editor.setStyle(templateData.style);
- });
-
+      editor.setComponents(templateData.content);
+      editor.setStyle(templateData.style);
+    });
 
     const editorPanels = editor.Panels;
     const editorCommands = editor.Commands;
@@ -72,25 +93,25 @@ export function Builder() {
       },
     ]);
 
-    //Save Draft Button
-    editorCommands.add("save-db", function (editor, sender) {
+    //Update Button
+    editorCommands.add("update", function (editor, sender) {
       sender && sender.set("active", 0);
-      saveDraft(editor);
+      update(editor, templateId);
     });
 
     editorPanels.addButton("options", [
       {
-        id: "save-db",
+        id: "update",
         className: "fa fa-floppy-o",
-        command: "save-db",
-        attributes: { title: "Save Draft" },
+        command: "update",
+        attributes: { title: "Update" },
       },
     ]);
 
     // Publish Button
     editorCommands.add("publish", function (editor, sender) {
       sender && sender.set("active", 0);
-      publish(editor)
+      publish(editor, templateId) // Pass templateId as a parameter
         .then((link) => {
           setGeneratedLink(link);
         })
@@ -114,31 +135,26 @@ export function Builder() {
     defineFormBlocks(editor);
     faqContent(editor);
     customButton(editor);
-    customInput(editor)
+    customInput(editor);
     itemDetailsBlock(editor);
     customText(editor);
     defineCustomBlocks(editor);
     window.editor = editor;
-
   };
 
   return (
     <>
       <div>
         <div>
-          <input
+          <CopyField
             type="text"
             value={generatedLink}
             readOnly
-            placeholder="Generated Link"
+            label="Generated Link"
+            onCopySuccess={copyToClipboard}
             style={{
-              fontSize: "18px",
-              padding: "10px",
-              border: "1px solid #ccc",
-              borderRadius: "5px",
-              width: "30%",
-              marginTop: "-30px",
-              marginBottom: "5px",
+              width: "500px", // Set your desired width here
+              marginBottom: "5px", // Set your desired margins here (e.g., 0 top/bottom, 10px left/right)
             }}
           />
         </div>

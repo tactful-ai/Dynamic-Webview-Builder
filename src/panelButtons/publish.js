@@ -1,9 +1,9 @@
 import { message } from "antd";
 
-export const publish = async (editor) => {
+export const publish = async (editor, templateId) => {
+  // Accept templateId as a parameter
   editor.store();
 
-  const templateId = localStorage.getItem("templateId");
   const publishUrl = `http://localhost:3001/publish/${templateId}`;
 
   try {
@@ -17,10 +17,6 @@ export const publish = async (editor) => {
     if (response.ok) {
       const linkUrl = publishUrl;
       message.success("Template published successfully");
-
-      // Copy the link URL to the clipboard
-      await navigator.clipboard.writeText(linkUrl);
-      message.success("Link copied to clipboard");
 
       return linkUrl;
     } else {
