@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
@@ -17,62 +16,60 @@ import { message } from "antd";
 import { CopyField } from "@eisberg-labs/mui-copy-field";
 
 export function Builder() {
-  const { id } = useParams();
+  const { templateId } = useParams();
 
   const [generatedLink, setGeneratedLink] = useState("");
-  const [templateData, setTemplateData] = useState(null);
+  // const [templateData, setTemplateData] = useState({ content: "", style: "" }); // Initialize with an empty object
+
+  const copyToClipboard = () => {
+    const linkInput = document.createElement("input");
+    linkInput.value = generatedLink;
+
+    document.body.appendChild(linkInput);
+    linkInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(linkInput);
+
+    message.success("Link copied to clipboard");
+  };
 
   useEffect(() => {
-    // Fetch the template data based on the :id parameter from the backend
     const fetchTemplateData = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/templates/${id}`);
+        const response = await fetch(
+          `http://localhost:3001/templates/${templateId}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch template data.");
         }
         const data = await response.json();
-        setTemplateData(data); // Update the state with the fetched template data
+
+        // Store the template data in localStorage
+        localStorage.setItem("templateData", JSON.stringify(data));
       } catch (error) {
         console.error("Error fetching template data:", error);
       }
     };
 
-    fetchTemplateData(); // Call the fetchTemplateData function when the component mounts
-  }, [id]);
-  const { templateId } = useParams();
-
-  const copyToClipboard = () => {
-    // Create an input element to hold the link text
-    const linkInput = document.createElement("input");
-    linkInput.value = generatedLink;
-
-    // Append the input element to the document
-    document.body.appendChild(linkInput);
-
-    // Select the input text
-    linkInput.select();
-
-    // Copy the selected text to the clipboard
-    document.execCommand("copy");
-
-    // Remove the input element from the document
-    document.body.removeChild(linkInput);
-
-    // Show a success message
-    message.success("Link copied to clipboard");
-  };
+    fetchTemplateData();
+  }, [templateId]);
 
   const onEditor = (editor) => {
     editor.on("load", () => {
-      console.log(templateData.content);
-      //  const content =`
-      // {${templateData.content}.match(/<script>(.*?)<\/script>/g)?.map((scriptTag, index) => (
-      //   <pre key={index}>{scriptTag}</pre>
-      // ))}`
-      // console.log(content)
+      const storedTemplateData = localStorage.getItem("templateData");
 
-      editor.setComponents(templateData.content);
-      editor.setStyle(templateData.style);
+      if (storedTemplateData) {
+        const templateData = JSON.parse(storedTemplateData);
+
+        if (templateData.content) {
+          // Set the GrapesJS editor components with the fetched template content
+          editor.setComponents(templateData.content);
+        }
+        if (templateData.style) {
+          // Set the GrapesJS editor styles with the fetched template style
+          editor.setStyle(templateData.style);
+        }
+      }
     });
 
     const editorPanels = editor.Panels;
@@ -93,7 +90,7 @@ export function Builder() {
       },
     ]);
 
-    //Update Button
+    // Update Button
     editorCommands.add("update", function (editor, sender) {
       sender && sender.set("active", 0);
       update(editor, templateId);
@@ -111,7 +108,7 @@ export function Builder() {
     // Publish Button
     editorCommands.add("publish", function (editor, sender) {
       sender && sender.set("active", 0);
-      publish(editor, templateId) // Pass templateId as a parameter
+      publish(editor, templateId)
         .then((link) => {
           setGeneratedLink(link);
         })
@@ -129,8 +126,6 @@ export function Builder() {
         attributes: { title: "Publish" },
       },
     ]);
-    // editor.setComponents(templateData);
-    // // editor.setStyle(templateData.css);
 
     defineFormBlocks(editor);
     faqContent(editor);
@@ -153,22 +148,18 @@ export function Builder() {
             label="Generated Link"
             onCopySuccess={copyToClipboard}
             style={{
-              width: "500px", // Set your desired width here
-              marginBottom: "5px", // Set your desired margins here (e.g., 0 top/bottom, 10px left/right)
+              width: "500px",
+              marginBottom: "5px",
             }}
           />
         </div>
-        {templateData && ( // Render the GjsEditor only when templateData is available
-          <GjsEditor
-            grapesjs="https://unpkg.com/grapesjs"
-            grapesjsCss="https://unpkg.com/grapesjs/dist/css/grapes.min.css"
-            options={gjsOptions}
-            plugins={editorPlugins}
-            onEditor={onEditor}
-            // initialContent={templateData.content} // Pass the template content as initial content
-            // initialStyle={templateData.style}     // Pass the template style as initial style
-          />
-        )}
+        <GjsEditor
+          grapesjs="https://unpkg.com/grapesjs"
+          grapesjsCss="https://unpkg.com/grapesjs/dist/css/grapes.min.css"
+          options={gjsOptions}
+          plugins={editorPlugins}
+          onEditor={onEditor}
+        />
       </div>
     </>
   );

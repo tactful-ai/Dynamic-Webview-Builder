@@ -32,7 +32,7 @@ const gjsOptions = {
     allowScripts: true,
   },
   parser: {
-    optionsHtml: { allowScripts: true }
+    optionsHtml: { allowScripts: true },
   },
   projectData: {
     assets: [

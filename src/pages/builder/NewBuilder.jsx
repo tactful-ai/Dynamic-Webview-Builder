@@ -9,7 +9,6 @@ import { customText } from "/src/customBlocks/customText";
 import { customButton } from "/src/customBlocks/customButton";
 import { customInput } from "/src/customBlocks/customInput";
 import { defineFormBlocks } from "/src/customBlocks/formBlocks";
-import { saveDraft } from "/src/panelButtons/saveDraft";
 import { publish } from "/src/panelButtons/publish";
 import { message } from "antd";
 
@@ -74,7 +73,7 @@ export function NewBuilder() {
     defineFormBlocks(editor);
     faqContent(editor);
     customButton(editor);
-    customInput(editor)
+    customInput(editor);
     itemDetailsBlock(editor);
     customText(editor);
     defineCustomBlocks(editor);
