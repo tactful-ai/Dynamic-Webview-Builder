@@ -19,8 +19,21 @@ const products = [
   },
 ];
 
+// Get all products
 router.get("/", (req, res) => {
   res.json(products);
+});
+
+// Get a specific product by ID
+router.get("/:productId", (req, res) => {
+  const productId = req.params.productId;
+  const product = products.find((p) => p.id === productId);
+
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+
+  res.json(product);
 });
 
 module.exports = router;

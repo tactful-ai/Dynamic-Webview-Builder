@@ -1,6 +1,28 @@
 export const itemDetailsBlock = (editor) => {
 
   const script = function (props) {
+
+    const fetchSingleProductData = (productId) => {
+
+        const apiUrl = `http://localhost:3001/products`; // Update with your API URL
+        const url = `${apiUrl}/${productId}`;    
+      return fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Failed to fetch product with ID ${productId}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          return data; // This will be the product data
+        })
+        .catch((error) => {
+          console.error("Error fetching product data:", error);
+          throw error; // Rethrow the error for handling in the calling code
+        });
+    };
+    
+    
     const fetchProductData = (
       url,
       productNameKey,
@@ -73,7 +95,7 @@ export const itemDetailsBlock = (editor) => {
           return;
         }
         content +=
-          '<div class="product-item-card" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; margin-bottom: 20px; background-color: #fff;">';
+          `<div class="product-item-card" data-product-id="${item.id}" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; margin-bottom: 20px; background-color: #fff;">`;
         content += `<h3 id="product-name" class="product-name" style="font-size: 18px; margin-bottom: 10px;">${item[productNameKey]}</h3>`;
         if (productImgKey) {
           content += `<img id="product-image" class="product-image" src="${item[productImgKey]}" alt="${item[productNameKey]}" style="max-width: 375px; height: auto; margin-bottom: 10px;">`;
@@ -96,9 +118,19 @@ export const itemDetailsBlock = (editor) => {
           content;
       });
 
-      const addToCartButtons = Array.from(
-        document.querySelectorAll(".add-to-cart-button")
-      );
+
+      const cardElements = Array.from(document.querySelectorAll(".product-item-card"));
+
+      cardElements.forEach((cardElement)=>{
+        cardElement.addEventListener("click", () => {
+          const productId = cardElement.getAttribute("data-product-id");
+          // Redirect to the product details page for the clicked product
+          window.location.href = `${props.apiUrl}/${productId}`;
+        });
+      });
+    
+      const addToCartButtons = Array.from(document.querySelectorAll(".add-to-cart-button"));
+
       addToCartButtons.forEach((button) => {
         button.addEventListener("click", () => {
           const productId = button.getAttribute("data-product-id");
@@ -138,6 +170,11 @@ export const itemDetailsBlock = (editor) => {
         productDescriptionKey: "",
         productRatingKey: "",
         traits: [
+          {
+            name:"apiUrl",
+            label:"apiUrl",
+            type:"text",
+          },
           {
             name: "apiEndpoint",
             label: "Button API Endpoint",
