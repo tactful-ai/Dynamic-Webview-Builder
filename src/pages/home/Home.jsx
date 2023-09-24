@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { Row, Col } from "antd";
+import { Row, Col,Button  } from "antd";
+import { EyeOutlined, EditOutlined } from '@ant-design/icons';
+
 import TemplateCard from "/src/templates/templateCard";
 
 export const Home = () => {
@@ -18,7 +20,7 @@ export const Home = () => {
       <Row gutter={16}>
         {templates.map((template) => (
           <Col span={8} key={template._id}>
-            <TemplateCard template={template} />
+            <TemplateCard templateId={template._id} />
           </Col>
         ))}
       </Row>
