@@ -3,7 +3,7 @@ export const customButton = (editor) => {
   
   const script = function () {   
      
-    const handleHttpRequestAction = async (actionURL, method, form,token,customHeaders) => {
+    const handleHttpRequestAction = async (actionURL, method, form,token,customHeaders,params) => {
       const formData = {};
       const pramsData = {};
       const inputs = form.querySelectorAll("input, select, textarea");
@@ -23,6 +23,17 @@ export const customButton = (editor) => {
           pramsData[name]= value;
         }
       });
+
+      if (params) {
+        const lines = params.split(",");
+        lines.forEach((line) => {
+          const [key, value] = line.split(":");
+          if (key && value) {
+            pramsData[key.trim()] = value.trim();
+          }
+        });
+      }
+
       console.log(formData)
       console.log("pramsData",pramsData)
 
@@ -92,12 +103,13 @@ export const customButton = (editor) => {
         const action = this.getAttribute("actions");
         const token = this.getAttribute("token");
         const customHeaders = this.getAttribute("customHeaders");
+        const params = this.getAttribute("params");
         
         if (action === "alert") {
           alert(actionURL);
         } else if (action === "handleHttpRequest" && method && actionURL) {
           const form = this.parentElement;
-          await handleHttpRequestAction(actionURL, method, form,token,customHeaders);
+          await handleHttpRequestAction(actionURL, method, form,token,customHeaders,params);
         }
       })
     }
@@ -117,6 +129,7 @@ export const customButton = (editor) => {
         url: "",
         method: "",
         token:"",
+        params:"",
         traits: [
           {
             name: "text",
@@ -163,6 +176,11 @@ export const customButton = (editor) => {
           {
             name: "customHeaders",
             label: "Custom Headers",
+            type: "textarea",
+          },
+          {
+            name: "params",
+            label: "Params",
             type: "textarea",
           }
         ],

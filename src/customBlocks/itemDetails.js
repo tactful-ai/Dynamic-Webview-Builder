@@ -21,7 +21,7 @@ export const itemDetailsBlock = (editor) => {
           throw error; // Rethrow the error for handling in the calling code
         });
     };
-    
+
     
     const fetchProductData = (
       url,
@@ -88,7 +88,7 @@ export const itemDetailsBlock = (editor) => {
       }
 
 
-      let content = '<div class="product-component">';
+      let content = '<div class="product-component" id="product-component">';
       data?.forEach((item) => {
         if (typeof item !== 'object') {
           console.error('Item is not in the expected format (not an object)');
@@ -119,15 +119,15 @@ export const itemDetailsBlock = (editor) => {
       });
 
 
-      const cardElements = Array.from(document.querySelectorAll(".product-item-card"));
+      // const cardElements = Array.from(document.querySelectorAll(".product-item-card"));
 
-      cardElements.forEach((cardElement)=>{
-        cardElement.addEventListener("click", () => {
-          const productId = cardElement.getAttribute("data-product-id");
-          // Redirect to the product details page for the clicked product
-          window.location.href = `${props.apiUrl}/${productId}`;
-        });
-      });
+      // cardElements.forEach((cardElement)=>{
+      //   cardElement.addEventListener("click", () => {
+      //     const productId = cardElement.getAttribute("data-product-id");
+      //     // Redirect to the product details page for the clicked product
+      //     window.location.href = `${props.apiUrl}/${productId}`;
+      //   });
+      // });
     
       const addToCartButtons = Array.from(document.querySelectorAll(".add-to-cart-button"));
 
@@ -170,11 +170,6 @@ export const itemDetailsBlock = (editor) => {
         productDescriptionKey: "",
         productRatingKey: "",
         traits: [
-          {
-            name:"apiUrl",
-            label:"apiUrl",
-            type:"text",
-          },
           {
             name: "apiEndpoint",
             label: "Button API Endpoint",

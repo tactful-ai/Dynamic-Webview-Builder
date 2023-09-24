@@ -11,6 +11,7 @@ import { customText } from "/src/customBlocks/customText";
 import { customButton } from "/src/customBlocks/customButton";
 import { customInput } from "/src/customBlocks/customInput";
 import { defineFormBlocks } from "/src/customBlocks/formBlocks";
+import {defineTicket} from "/src/customBlocks/ticketBlock";
 import { saveDraft } from "/src/panelButtons/saveDraft";
 import { publish } from "/src/panelButtons/publish";
 import { message } from "antd";
@@ -42,13 +43,6 @@ export function Builder() {
   const onEditor = (editor) => {
 
   editor.on('load', () => {
-    console.log(templateData.content)
-    //  const content =`
-    // {${templateData.content}.match(/<script>(.*?)<\/script>/g)?.map((scriptTag, index) => (
-    //   <pre key={index}>{scriptTag}</pre>
-    // ))}`
-    // console.log(content)
-
     editor.setComponents(templateData.content);
     editor.setStyle(templateData.style);
  });
@@ -118,6 +112,7 @@ export function Builder() {
     itemDetailsBlock(editor);
     customText(editor);
     defineCustomBlocks(editor);
+    defineTicket(editor);
     window.editor = editor;
 
   };

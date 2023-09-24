@@ -23,6 +23,7 @@ const TemplateCard = ({ template, onViewClick, onEditClick }) => {
         </div>
       }
     >
+      {/* url template */}
       <div dangerouslySetInnerHTML={{ __html: contentElement.innerHTML }} />
     </Card>
   );
