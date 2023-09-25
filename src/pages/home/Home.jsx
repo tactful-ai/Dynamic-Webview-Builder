@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Row, Col,Button  } from "antd";
-import { EyeOutlined, EditOutlined } from '@ant-design/icons';
+import { Row, Col  } from "antd"; 
 
 import TemplateCard from "/src/templates/templateCard";
 

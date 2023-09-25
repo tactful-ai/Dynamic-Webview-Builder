@@ -102,9 +102,7 @@ export function Builder() {
         attributes: { title: "Publish" },
       },
     ]);
-    // editor.setComponents(templateData);
-    // // editor.setStyle(templateData.css);
-
+    
     defineFormBlocks(editor);
     faqContent(editor);
     customButton(editor);

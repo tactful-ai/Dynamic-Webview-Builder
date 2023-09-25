@@ -1,3 +1,5 @@
+import { itemDetailsBlock } from "/src/customBlocks/itemDetails";
+
 export const editorPlugins = [
   {
     id: 'gjs-blocks-basic',
@@ -31,4 +33,5 @@ export const editorPlugins = [
     id: 'grapesjs-component-code-editor',
     src: "https://unpkg.com/grapesjs-component-code-editor",
   },
+  itemDetailsBlock,
 ];

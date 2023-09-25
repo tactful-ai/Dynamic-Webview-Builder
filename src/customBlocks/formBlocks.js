@@ -92,38 +92,5 @@ export const defineFormBlocks = (editor) => {
       `,
   });
 
-formBlock.set({
-  label: "Custom Form Block",
-  content: `
-    <form style="display: flex; flex-direction: column; align-items: center; border: 1px solid #ccc; border-radius: 4px; background-color: #f5f5f5; padding: 20px;">
-      <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;" required>
-      </div>
-
-      <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;" required>
-      </div>
-
-      <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
-        <label for="client_id">Client ID:</label>
-        <input type="text" id="client_id" name="client_id" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;" required>
-      </div>
-
-      <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
-        <label for="client_secret">Client Secret:</label>
-        <input type="text" id="client_secret" name="client_secret" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;" required>
-      </div>
-
-      <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
-        <label for="scope">Scope:</label>
-        <input type="text" id="scope" name="scope" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;" required>
-      </div>
-
-      <button data-gjs-type="custom-button" id="custom-button" class="custom-button" data-gjs-name="Custom Button"  style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
-    </form>
-  `,
-});
 
 };

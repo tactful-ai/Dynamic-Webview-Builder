@@ -1,28 +1,13 @@
 export const itemDetailsBlock = (editor) => {
-
   const script = function (props) {
+    // const component = document.querySelectorAll(".product-component")
+    // component.setAttributes({
+    //     'productNameKey': props.productNameKey || "",
+    //     'productImgKey': props.productImgKey || "",
+    //     'productDescriptionKey': props.productDescriptionKey || "",
+    //     'productRatingKey': props.productRatingKey || "",
+    //   });
 
-    const fetchSingleProductData = (productId) => {
-
-        const apiUrl = `http://localhost:3001/products`; // Update with your API URL
-        const url = `${apiUrl}/${productId}`;    
-      return fetch(url)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Failed to fetch product with ID ${productId}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          return data; // This will be the product data
-        })
-        .catch((error) => {
-          console.error("Error fetching product data:", error);
-          throw error; // Rethrow the error for handling in the calling code
-        });
-    };
-
-    
     const fetchProductData = (
       url,
       productNameKey,
@@ -80,7 +65,6 @@ export const itemDetailsBlock = (editor) => {
       productDescriptionKey,
       productRatingKey
     ) {
-
       // Check if data is an array
       if (!Array.isArray(data)) {
         console.error('Data is not in the expected format (not an array)');
@@ -88,7 +72,7 @@ export const itemDetailsBlock = (editor) => {
       }
 
 
-      let content = '<div class="product-component" id="product-component">';
+      let content = '<div>';
       data?.forEach((item) => {
         if (typeof item !== 'object') {
           console.error('Item is not in the expected format (not an object)');
@@ -117,17 +101,6 @@ export const itemDetailsBlock = (editor) => {
         document.getElementsByClassName("product-component")[idx].innerHTML =
           content;
       });
-
-
-      // const cardElements = Array.from(document.querySelectorAll(".product-item-card"));
-
-      // cardElements.forEach((cardElement)=>{
-      //   cardElement.addEventListener("click", () => {
-      //     const productId = cardElement.getAttribute("data-product-id");
-      //     // Redirect to the product details page for the clicked product
-      //     window.location.href = `${props.apiUrl}/${productId}`;
-      //   });
-      // });
     
       const addToCartButtons = Array.from(document.querySelectorAll(".add-to-cart-button"));
 
@@ -161,9 +134,17 @@ export const itemDetailsBlock = (editor) => {
   editor.DomComponents.addType("product-component", {
     model: {
       defaults: {
+      //   attributes: {
+      //     apiUrl: "http://localhost:3001/products",
+      //     apiEndpoint: "http://localhost:3001/products",
+      //     productNameKey: "",
+      //     productImgKey: "",
+      //     productDescriptionKey: "",
+      //     productRatingKey: "",
+      // },
         script,
+        // content: `<div id="product-component" class="product-component" data-gjs-type="product-component" ></div>`,
         apiUrl: "http://localhost:3001/products",
-        content: "",
         apiEndpoint: "http://localhost:3001/products",
         productNameKey: "",
         productImgKey: "",
@@ -211,12 +192,28 @@ export const itemDetailsBlock = (editor) => {
           "productRatingKey",
         ],
       },
+      // init(){
+      //   this.on("change:productNameKey", this.handleAltChange);
+      // },
+
+      //   handleAltChange() {
+      //   const component =editor.getSelected();
+      //   component.setAttributes({
+      //       'productNameKey': component.props.productNameKey || "",
+      //       'productImgKey': component.props.productImgKey || "",
+      //       'productDescriptionKey': component.props.productDescriptionKey || "",
+      //       'productRatingKey': component.props.productRatingKey || "",
+      //     });
+    
+      //   console.log("component",component)
+      // },
     },
   });
 
   editor.BlockManager.add("product-block", {
     label: "Product Block",
     category: "Dynamic Blocks",
-    content: `<div id="product-component" class="product-component" data-gjs-type="product-component" ></div>`,
+    // content: {type:"product-component"}
+    content: `<div  class="product-component" data-gjs-type="product-component" ></div>`,
   });
 };

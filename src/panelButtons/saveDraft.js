@@ -4,7 +4,7 @@ export const saveDraft = (editor) => {
   editor.store();
 
   const htmlContent = editor.getHtml();
-
+  
   const externalCssUrls = editor.getConfig().canvas.styles;
 
   const fetchCssPromises = externalCssUrls.map((url) =>
