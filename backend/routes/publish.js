@@ -61,12 +61,6 @@ router.get("/:templateId/:id", async (req, res) => {
 
     res.status(200).send(renderedHtml);
 
-
-      // At this point, you have both the template and product data
-      // You can render the template with the product data as needed
-
-      // res.status(200).json({ productData });
-
   }
   catch (error) {
     console.error("Error publishing:", error);

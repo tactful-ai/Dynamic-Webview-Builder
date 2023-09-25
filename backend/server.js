@@ -17,6 +17,8 @@ const itemDetails = require("./routes/itemDetails");
 const dynamicText = require("./routes/dynamicText");
 const allTemplates = require("./routes/allTemplates");
 const findTemplate = require("./routes/findTemplate")
+const cart = require("./routes/cart")
+
 
 const app = express();
 
@@ -39,6 +41,7 @@ app.use("/products", itemDetails);
 app.use("/dynamic-text", dynamicText);
 app.use("/templates",allTemplates)
 app.use("/templates",findTemplate)
+app.use("/",cart)
 
 // Establish a connection with the MongoDB database
 mongoose
