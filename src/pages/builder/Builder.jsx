@@ -6,7 +6,6 @@ import { editorPlugins } from "/src/utils/plugins";
 import { defineCustomBlocks } from "/src/customBlocks/customBlocks";
 import { itemDetailsBlock } from "/src/customBlocks/itemDetails";
 import { faqContent } from "/src/customBlocks/faqContent";
-import { customText } from "/src/customBlocks/customText";
 import { customButton } from "/src/customBlocks/customButton";
 import { customInput } from "/src/customBlocks/customInput";
 import { defineFormBlocks } from "/src/customBlocks/formBlocks";
@@ -62,11 +61,9 @@ export function Builder() {
         const templateData = JSON.parse(storedTemplateData);
 
         if (templateData.content) {
-          // Set the GrapesJS editor components with the fetched template content
           editor.setComponents(templateData.content);
         }
         if (templateData.style) {
-          // Set the GrapesJS editor styles with the fetched template style
           editor.setStyle(templateData.style);
         }
       }
@@ -132,7 +129,6 @@ export function Builder() {
     customButton(editor);
     customInput(editor);
     itemDetailsBlock(editor);
-    customText(editor);
     defineCustomBlocks(editor);
     window.editor = editor;
   };

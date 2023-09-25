@@ -3,14 +3,14 @@ const router = express.Router();
 
 const questionsAndAnswers = [
   {
-    question: "What is GrapesJS?",
+    question: "What is Dstny Engage?",
     answer:
-      "GrapesJS is an open-source web page builder that allows you to create web pages visually.",
+      "Dstny Engage is an omnichannel communications software that helps businesses connect with customers across multiple channels, such as email, social media, and voice, for personalized interactions.",
   },
   {
-    question: "How can I integrate an API with GrapesJS?",
+    question: "How can Dstny Engage benefit my business?",
     answer:
-      "You can integrate an API with GrapesJS by creating custom components that fetch and display data from the API.",
+      "Dstny Engage boosts customer satisfaction by delivering personalized experiences, simplifies engagement with a Unified Inbox, and increases revenue by reaching more customers through preferred channels.",
   },
 ];
 
