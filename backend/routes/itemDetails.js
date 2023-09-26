@@ -24,7 +24,6 @@ router.get("/", (req, res) => {
   res.json(products);
 });
 
-// Get a specific product by ID
 router.get("/:productId", (req, res) => {
   const productId = req.params.productId;
   const product = products.find((p) => p.id === productId);
@@ -41,25 +40,21 @@ const cart = [];
 router.post("/add", (req, res) => {
   const { productId, quantity } = req.body;
 
-  // Find the product by its ID
   const product = products.find((p) => p.id === productId);
 
   if (!product) {
     return res.status(404).json({ message: "Product not found" });
   }
 
-  // Add the product to the cart with the specified quantity
   cart.push({
     product,
-    quantity: parseInt(quantity), // Ensure quantity is a number
+    quantity: parseInt(quantity),
   });
 
-  res.redirect("/cart"); // Redirect to the cart page or another appropriate route
+  res.redirect("/cart");
 });
 
-// Cart page route (you can create a separate route to display the cart)
 router.get("/cart", (req, res) => {
-  // Render the cart page with the items in the cart array
   res.render("cart", { cart });
 });
 

@@ -17,6 +17,11 @@ const questionsAndAnswers = [
     answer:
       "Dstny Engage boosts customer satisfaction by delivering personalized experiences, simplifies engagement with a Unified Inbox, and increases revenue by reaching more customers through preferred channels.",
   },
+  {
+    question: "mklseHow can Dstny Engage benefit my business?",
+    answer:
+      "Dstny Engage boosts customer satisfaction by delivering personalized experiences, simplifies engagement with a Unified Inbox, and increases revenue by reaching more customers through preferred channels.",
+  },
 ];
 
 router.get("/", (req, res) => {

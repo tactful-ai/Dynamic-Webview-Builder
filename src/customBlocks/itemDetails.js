@@ -56,7 +56,7 @@ export const itemDetailsBlock = (editor) => {
     productDescriptionKey,
     productRatingKey
   ) {
-    // Check if data is an array
+
     if (!Array.isArray(data)) {
       console.error('Data is not in the expected format (not an array)');
       return;
@@ -171,7 +171,6 @@ export const itemDetailsBlock = (editor) => {
       productDescriptionKey,
       productRatingKey
     ) {
-      // Check if data is an array
       if (!Array.isArray(data)) {
         console.error('Data is not in the expected format (not an array)');
         return;
@@ -341,6 +340,7 @@ export const itemDetailsBlock = (editor) => {
   editor.BlockManager.add("product-block", {
     label: "Product Block",
     category: "Dynamic Blocks",
+    attributes: { class: "fa fa-shopping-cart" },
     // content: {type:"product-component"}
     content: `<div  class="product-component" data-gjs-type="product-component" ></div>`,
   });

@@ -3,6 +3,7 @@ export const defineCustomBlocks = (editor) => {
   editorBlockManager.add('input-label-block', {
     label: 'Input Label',
     category: 'Styled Components',
+    attributes: { class: "fa fa-pencil-square-o" },
     content: `
         <div class="input-label-block" >
           <div class="input-label-row">
@@ -14,8 +15,9 @@ export const defineCustomBlocks = (editor) => {
   });
 
   editorBlockManager.add('styled-faq', {
-    label: 'Styled FAQ',
+    label: 'Create FAQ',
     category: 'Styled Components',
+    attributes: { class: "fa fa-comments-o" },
     content: `
         <div class="styled-faq">
           <h2 class="faq-heading">Frequently Asked Questions</h2>

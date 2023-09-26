@@ -1,11 +1,9 @@
 export const faqContent = (editor) => {
-  // Function to fetch FAQ data to display on canvas
   const fetchFAQData = (url,questionKey,answerKey) => {
     if (url) {
       return fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          // Process FAQ data and set the component's content
           generateFAQContent(data,questionKey,answerKey);
         })
         .catch((error) => {
@@ -14,9 +12,7 @@ export const faqContent = (editor) => {
     }
   };
 
-  // Function to generate FAQ content to display on canvas
   function generateFAQContent(data,questionKey,answerKey) {
-    // Generate HTML content for displaying FAQ items
     if (!Array.isArray(data)) {
       console.error('Data is not in the expected format (not an array)');
       return;
@@ -30,8 +26,6 @@ export const faqContent = (editor) => {
     </div>`;
     });
     content += "</div>";
-    console.log("content 1",content);
-
     return content;
   }
 
@@ -71,7 +65,6 @@ export const faqContent = (editor) => {
         document.getElementsByClassName("faq-component")[idx].innerHTML =
           content;
       });
-      console.log("content 2 in generate",content);
     }
 
     fetchFAQData(props.apiUrl,props.questionKey,props.answerKey);
@@ -124,10 +117,10 @@ export const faqContent = (editor) => {
     },
   });
 
-  //Adding Component
   editor.BlockManager.add("faq-block", {
     label: "FAQ Block",
     category: "Dynamic Blocks",
+    attributes: { class: "fa fa-comments-o" },
     content: "<div id='faq-component' class='faq-component' data-gjs-type='faq-component'>Fetching</div>",
 
     // content: {
