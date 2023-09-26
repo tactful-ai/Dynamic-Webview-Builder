@@ -12,6 +12,8 @@ The home page of the application serves as the central hub for template manageme
 
 2. The retrieved templates are displayed on the home page, allowing users to see the list of available templates.
 
+![Home Page](docs/imgs/home.png)
+
 ### Create New Template
 
 1. To create a new template, the user provides a name for the template.
