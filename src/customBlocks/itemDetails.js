@@ -1,7 +1,6 @@
-
 export const itemDetailsBlock = (editor) => {
   const apiUrlOptions = [
-    { value: "http://localhost:3001/faqItems", name: "Dstny FAQ" },
+    { value: "http://localhost:3001/faq-items", name: "Dstny FAQ" },
     { value: "http://localhost:3001/faq", name: "Grapes FAQ" },
     { value: "http://localhost:3001/products", name: "Products" },
   ];
@@ -34,7 +33,7 @@ export const itemDetailsBlock = (editor) => {
     const apiEndpoint = apiEndpoint;
     const postData = {
       product_id: productId,
-      quantity:1,
+      quantity: 1,
     };
 
     fetch(apiEndpoint, {
@@ -139,8 +138,7 @@ export const itemDetailsBlock = (editor) => {
       const apiEndpoint = props.apiEndpoint;
       const postData = {
         product_id: productId,
-        quantity:1,
-
+        quantity: 1,
       };
 
       fetch(apiEndpoint, {
