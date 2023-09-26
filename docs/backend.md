@@ -59,8 +59,9 @@ The backend provides a set of APIs to interact with the templates stored in the 
   - **Description:** Updates the HTML content and CSS styles of a specific template.
 
 - **Save Draft API**
-- **Endpoint:** `/save-draft`
-- **Purpose:** Allows users to save a draft of their templates.
+
+  - **Endpoint:** `/save-draft`
+  - **Purpose:** Allows users to save a draft of their templates.
 
 - **Publish API:**
 

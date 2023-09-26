@@ -25,7 +25,7 @@ export const update = (editor, templateId) => {
         body: JSON.stringify({ content: htmlContent, style: updatedStyles }),
       })
         .then((response) => response.json())
-        .then((data) => {
+        .then(() => {
           message.success("Template updated successfully");
         })
         .catch((error) => {

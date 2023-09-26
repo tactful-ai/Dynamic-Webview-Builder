@@ -1,3 +1,5 @@
+import { message } from "antd";
+
 export const customButton = (editor) => {
   const buttonType = "custom-button";
   
@@ -12,9 +14,9 @@ export const customButton = (editor) => {
         const name = input.name;
         const value = input.value;
         const sendInBody = input.getAttribute('sendinbody');
-        console.log("name",name)
-        console.log("value",value)
-        console.log("sendInBody",sendInBody)
+        // console.log("name",name)
+        // console.log("value",value)
+        // console.log("sendInBody",sendInBody)
 
         if (name && value && sendInBody=='true') {
           formData[name] = value;
@@ -34,8 +36,8 @@ export const customButton = (editor) => {
         });
       }
 
-      console.log(formData)
-      console.log("pramsData",pramsData)
+      // console.log(formData)
+      // console.log("pramsData",pramsData)
 
 
       let finalURL = actionURL;
@@ -47,10 +49,10 @@ export const customButton = (editor) => {
       
       if (pramsData) {
         const params = new URLSearchParams(pramsData);
-        console.log(pramsData)
+        // console.log(pramsData)
         finalURL += `&${params.toString()}`;
       }
-      console.log("finalURL",finalURL)
+      // console.log("finalURL",finalURL)
       let headers = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
@@ -66,7 +68,7 @@ export const customButton = (editor) => {
           }
         });
       }
-      console.log(headers)
+      // console.log(headers)
     
       const requestOptions = {
         method: method,
@@ -85,9 +87,9 @@ export const customButton = (editor) => {
         }
     
         const data = await response.json();
-        console.log("Request succeeded:", data);
+        message.success("Request succeeded:", data);
       } catch (error) {
-        console.error("There was a problem with the request:", error);
+        message.error("There was a problem with the request:", error);
       }
     };  
 
