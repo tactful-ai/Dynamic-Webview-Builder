@@ -10,7 +10,6 @@ import { customButton } from "/src/customBlocks/customButton";
 import { customInput } from "/src/customBlocks/customInput";
 import { defineFormBlocks } from "/src/customBlocks/formBlocks";
 import {defineTicket} from "/src/customBlocks/ticketBlock";
-// import { saveDraft } from "/src/panelButtons/saveDraft";
 import { update } from "/src/panelButtons/update";
 import { publish } from "/src/panelButtons/publish";
 import { message } from "antd";
