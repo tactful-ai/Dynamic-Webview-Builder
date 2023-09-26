@@ -20,11 +20,15 @@ The home page of the application serves as the central hub for template manageme
 
 2. The user submits the form, triggering an API request to create the template. The API should accept the user-defined name as input.
 
+![Form Page](./imgs/fome.png)
+
 3. After successfully creating the template, the user is redirected to the template builder at `http://localhost:5173/builder/{templateId}`. The `{templateId}` parameter represents the unique identifier for the newly created template.
 
 ## Template Builder
 
 In the template builder, users can design their templates by dragging and dropping components onto the canvas.
+
+![Builder Page](./imgs/builder.png)
 
 ### Update Template
 
