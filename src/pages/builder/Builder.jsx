@@ -8,6 +8,7 @@ import { itemDetailsBlock } from "/src/customBlocks/itemDetails";
 import { faqContent } from "/src/customBlocks/faqContent";
 import { customButton } from "/src/customBlocks/customButton";
 import { customInput } from "/src/customBlocks/customInput";
+import {customSelect} from "/src/customBlocks/customSelect";
 import { defineFormBlocks } from "/src/customBlocks/formBlocks";
 import {defineTicket} from "/src/customBlocks/ticketBlock";
 import { update } from "/src/panelButtons/update";
@@ -19,8 +20,6 @@ export function Builder() {
   const { templateId } = useParams();
 
   const [generatedLink, setGeneratedLink] = useState("");
-  // const [templateData, setTemplateData] = useState({ content: "", style: "" }); // Initialize with an empty object
-
   const copyToClipboard = () => {
     const linkInput = document.createElement("input");
     linkInput.value = generatedLink;
@@ -57,11 +56,6 @@ export function Builder() {
   const onEditor = (editor) => {
     editor.on("load", () => {
       const storedTemplateData = localStorage.getItem("templateData");
-
-//   editor.on('load', () => {
-//     editor.setComponents(templateData.content);
-//     editor.setStyle(templateData.style);
-//  });
       if (storedTemplateData) {
         const templateData = JSON.parse(storedTemplateData);
 
@@ -133,6 +127,7 @@ export function Builder() {
     faqContent(editor);
     customButton(editor);
     customInput(editor);
+    customSelect(editor);
     itemDetailsBlock(editor);
     defineCustomBlocks(editor);
     defineTicket(editor);

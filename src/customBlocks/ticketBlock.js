@@ -49,7 +49,7 @@ export const defineTicket = (editor) =>{
         <form style="display: flex; flex-direction: column; align-items: center; border: 1px solid #ccc; border-radius: 4px; background-color: #f5f5f5; padding: 20px;">
         <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
           <label for="ticketType" style="font-weight: bold; margin-right: 10px;">Ticket Type:</label>
-          <select id="ticketType" class="form-control" name="ticketType" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;">
+          <select id="ticketType" class="form-control" name="type" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;">
             <option value="Question">Question</option>
             <option value="Task">Task</option>
             <option value="Incident">Incident</option>
@@ -69,7 +69,7 @@ export const defineTicket = (editor) =>{
     
         <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
           <label for="assignee" style="font-weight: bold; margin-right: 10px;">Assignee:</label>
-          <input type="text" id="assignee" class="form-control" name="assignee" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+          <input type="number" id="assignee" class="form-control" name="assignee_id" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
         </div>
     
         <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
