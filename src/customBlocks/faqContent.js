@@ -74,11 +74,11 @@ export const faqContent = (editor) => {
     });
   };
 
-  //Component type
   editor.DomComponents.addType("faq-component", {
     model: {
       defaults: {
         script,
+        content: "<div id='faq-component' class='faq-component' data-gjs-type='faq-component'>Fetching</div>",
         apiUrl: "http://localhost:3001/faq",
         questionKey:"",
         answerKey:"",
@@ -121,10 +121,8 @@ export const faqContent = (editor) => {
     label: "FAQ Block",
     category: "Dynamic Blocks",
     attributes: { class: "fa fa-comments-o" },
-    content: "<div id='faq-component' class='faq-component' data-gjs-type='faq-component'>Fetching</div>",
-
-    // content: {
-    //   type: "faq-component",
-    // },
+    content: {
+      type: "faq-component",
+    },
   });
 };
