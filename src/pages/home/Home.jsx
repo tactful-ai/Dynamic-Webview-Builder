@@ -22,6 +22,11 @@ export const Home = () => {
   };
 
   const handleOk = async () => {
+    if (templateName.trim() === "") {
+      message.error("Please enter a template name.");
+      return;
+    }
+
     try {
       setIsLoading(true);
 

@@ -14,6 +14,7 @@ router.get("/:templateId", async (req, res) => {
     }
 
     res.status(200).json({
+      name: template.name,
       content: template.content,
       style: template.style,
     });

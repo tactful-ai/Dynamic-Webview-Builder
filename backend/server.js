@@ -14,14 +14,13 @@ const saveDraft = require("./routes/saveDraft");
 const publish = require("./routes/publish");
 const update = require("./routes/update");
 const faq = require("./routes/faq");
-const faqitems = require("./routes/faqItems");
-
+const faqItems = require("./routes/faqItems");
+const deleteTemplate = require("./routes/delete");
 const itemDetails = require("./routes/itemDetails");
 const products = require("./routes/products");
 const allTemplates = require("./routes/allTemplates");
-const findTemplate = require("./routes/findTemplate")
-const cart = require("./routes/cart")
-
+const findTemplate = require("./routes/findTemplate");
+const cart = require("./routes/cart");
 
 const app = express();
 
@@ -40,14 +39,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/save-draft", saveDraft);
 app.use("/publish", publish);
 app.use("/update", update);
+app.use("/delete", deleteTemplate);
 app.use("/faq", faq);
-app.use("/faqitems", faqitems);
+app.use("/faqItems", faqItems);
 app.use("/products", itemDetails);
 app.use("/items", products);
-app.use("/templates",allTemplates)
-app.use("/templates",findTemplate)
-app.use("/",cart)
-
+app.use("/templates", allTemplates);
+app.use("/templates", findTemplate);
+app.use("/", cart);
 
 // Establish a connection with the MongoDB database
 mongoose

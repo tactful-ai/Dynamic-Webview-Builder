@@ -8,6 +8,11 @@ export function BuilderForm() {
   const navigate = useNavigate();
 
   const handleSave = async () => {
+    if (templateName.trim() === "") {
+      message.error("Please enter a template name.");
+      return;
+    }
+
     try {
       setIsLoading(true);
 
@@ -63,7 +68,7 @@ export function BuilderForm() {
           type="primary"
           onClick={handleSave}
         >
-          Save
+          Create
         </Button>
       </div>
 
