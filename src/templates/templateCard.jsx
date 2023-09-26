@@ -4,14 +4,13 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 const TemplateCard = ({ templateId }) => {
-
   const [templateName, setTemplateName] = useState(
     localStorage.getItem(`templateName_${templateId}`) || ""
   );
 
   useEffect(() => {
     fetchTemplateName();
-  }, [templateId]);
+  });
 
   const fetchTemplateName = () => {
     const storedName = localStorage.getItem(`templateName_${templateId}`);
@@ -117,6 +116,6 @@ const TemplateCard = ({ templateId }) => {
   );
 };
 TemplateCard.propTypes = {
-  templateId: PropTypes.number.isRequired,
+  templateId: PropTypes.string.isRequired,
 };
 export default TemplateCard;

@@ -40,7 +40,7 @@ app.use("/publish", publish);
 app.use("/update", update);
 app.use("/delete", deleteTemplate);
 app.use("/faq", faq);
-app.use("/faqItems", faqItems);
+app.use("/faq-items", faqItems);
 app.use("/products", itemDetails);
 app.use("/templates", allTemplates);
 app.use("/templates", findTemplate);

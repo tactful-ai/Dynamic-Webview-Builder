@@ -1,6 +1,6 @@
 export const faqContent = (editor) => {
   const apiUrlOptions = [
-    { value: "http://localhost:3001/faqItems", name: "Dstny FAQ" },
+    { value: "http://localhost:3001/faq-items", name: "Dstny FAQ" },
     { value: "http://localhost:3001/faq", name: "Grapes FAQ" },
     { value: "http://localhost:3001/products", name: "Products" },
   ];
