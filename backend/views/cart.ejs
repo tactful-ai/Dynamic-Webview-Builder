@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopping Cart</title>
     <style>
-      /* Add your CSS styles for the cart here */
       body {
         font-family: Arial, sans-serif;
         background-color: #f0f0f0;
@@ -35,14 +34,6 @@
         font-size: 16px;
         margin-bottom: 10px;
       }
-      .remove-button {
-        background-color: #ff6347;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        padding: 5px 10px;
-        cursor: pointer;
-      }
     </style>
   </head>
   <body>
@@ -54,20 +45,8 @@
       <div class="cart-item">
         <h2 class="product-name"><%= cartItem.product.productName %></h2>
         <p class="quantity">Quantity: <%= cartItem.quantity %></p>
-        <!-- <button class="remove-button" onclick="removeFromCart(<%= index %>)">
-          Remove
-        </button> -->
       </div>
       <% }); %> <% } %>
     </div>
-
-    <script>
-      // JavaScript function to remove an item from the cart
-      function removeFromCart(index) {
-        // Send an AJAX request to remove the item from the cart
-        // You can implement this logic using JavaScript fetch or an AJAX library like jQuery
-        // After successful removal, you may want to update the cart display
-      }
-    </script>
   </body>
 </html>
