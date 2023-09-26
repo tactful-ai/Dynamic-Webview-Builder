@@ -12,7 +12,7 @@ The home page of the application serves as the central hub for template manageme
 
 2. The retrieved templates are displayed on the home page, allowing users to see the list of available templates.
 
-![Home Page](/imgs/home.png)
+![Home Page](./imgs/home.png)
 
 ### Create New Template
 
