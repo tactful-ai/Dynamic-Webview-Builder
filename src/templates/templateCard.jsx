@@ -1,8 +1,10 @@
 import { Card, Button, Modal, message } from "antd";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 const TemplateCard = ({ templateId }) => {
+
   const [templateName, setTemplateName] = useState(
     localStorage.getItem(`templateName_${templateId}`) || ""
   );
@@ -114,5 +116,7 @@ const TemplateCard = ({ templateId }) => {
     </Card>
   );
 };
-
+TemplateCard.propTypes = {
+  templateId: PropTypes.number.isRequired,
+};
 export default TemplateCard;

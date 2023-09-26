@@ -1,3 +1,4 @@
+
 export const itemDetailsBlock = (editor) => {
   const apiUrlOptions = [
     { value: "http://localhost:3001/faqItems", name: "Dstny FAQ" },
@@ -24,7 +25,7 @@ export const itemDetailsBlock = (editor) => {
           );
         })
         .catch((error) => {
-          console.error("Error fetching product data:", error);
+          alert("Error fetching product data:", error);
         });
     }
   };
@@ -33,6 +34,7 @@ export const itemDetailsBlock = (editor) => {
     const apiEndpoint = apiEndpoint;
     const postData = {
       product_id: productId,
+      quantity:1,
     };
 
     fetch(apiEndpoint, {
@@ -44,13 +46,13 @@ export const itemDetailsBlock = (editor) => {
     })
       .then((response) => {
         if (response.ok) {
-          console.log("Product added to cart successfully");
+          alert("Product added to cart successfully");
         } else {
-          console.error("Failed to add product to cart");
+          alert("Failed to add product to cart");
         }
       })
       .catch((error) => {
-        console.error("Error adding product to cart:", error);
+        alert("Error adding product to cart:", error);
       });
   }
 
@@ -63,14 +65,14 @@ export const itemDetailsBlock = (editor) => {
   ) {
     // Check if data is an array
     if (!Array.isArray(data)) {
-      console.error("Data is not in the expected format (not an array)");
+      alert("Data is not in the expected format (not an array)");
       return;
     }
 
     let content = "<div>";
     data?.forEach((item) => {
       if (typeof item !== "object") {
-        console.error("Item is not in the expected format (not an object)");
+        alert("Item is not in the expected format (not an object)");
         return;
       }
       content += `<div class="product-item-card" data-product-id="${item.id}" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; margin-bottom: 20px; background-color: #fff;">`;
@@ -108,14 +110,6 @@ export const itemDetailsBlock = (editor) => {
   }
 
   const script = function (props) {
-    // const component = document.querySelectorAll(".product-component")
-    // component.setAttributes({
-    //     'productNameKey': props.productNameKey || "",
-    //     'productImgKey': props.productImgKey || "",
-    //     'productDescriptionKey': props.productDescriptionKey || "",
-    //     'productRatingKey': props.productRatingKey || "",
-    //   });
-
     const fetchProductData = (
       url,
       productNameKey,
@@ -136,7 +130,7 @@ export const itemDetailsBlock = (editor) => {
             );
           })
           .catch((error) => {
-            console.error("Error fetching product data:", error);
+            alert("Error fetching product data:", error);
           });
       }
     };
@@ -145,6 +139,8 @@ export const itemDetailsBlock = (editor) => {
       const apiEndpoint = props.apiEndpoint;
       const postData = {
         product_id: productId,
+        quantity:1,
+
       };
 
       fetch(apiEndpoint, {
@@ -156,13 +152,13 @@ export const itemDetailsBlock = (editor) => {
       })
         .then((response) => {
           if (response.ok) {
-            console.log("Product added to cart successfully");
+            alert("Product added to cart successfully");
           } else {
-            console.error("Failed to add product to cart");
+            alert("Failed to add product to cart");
           }
         })
         .catch((error) => {
-          console.error("Error adding product to cart:", error);
+          alert("Error adding product to cart:", error);
         });
     }
 
@@ -175,14 +171,14 @@ export const itemDetailsBlock = (editor) => {
     ) {
       // Check if data is an array
       if (!Array.isArray(data)) {
-        console.error("Data is not in the expected format (not an array)");
+        alert("Data is not in the expected format (not an array)");
         return;
       }
 
       let content = "<div>";
       data?.forEach((item) => {
         if (typeof item !== "object") {
-          console.error("Item is not in the expected format (not an object)");
+          alert("Item is not in the expected format (not an object)");
           return;
         }
         content += `<div class="product-item-card" data-product-id="${item.id}" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; margin-bottom: 20px; background-color: #fff;">`;
@@ -244,7 +240,7 @@ export const itemDetailsBlock = (editor) => {
         script,
         content: `<div id="product-component" class="product-component" data-gjs-type="product-component" ></div>`,
         apiUrl: "http://localhost:3001/products",
-        apiEndpoint: "http://localhost:3001/products",
+        apiEndpoint: "http://localhost:3001/add",
         productNameKey: "",
         productImgKey: "",
         productDescriptionKey: "",
@@ -313,22 +309,6 @@ export const itemDetailsBlock = (editor) => {
           this.model.components(content);
         },
       },
-
-      // init(){
-      //   this.on("change:productNameKey", this.handleAltChange);
-      // },
-
-      //   handleAltChange() {
-      //   const component =editor.getSelected();
-      //   component.setAttributes({
-      //       'productNameKey': component.props.productNameKey || "",
-      //       'productImgKey': component.props.productImgKey || "",
-      //       'productDescriptionKey': component.props.productDescriptionKey || "",
-      //       'productRatingKey': component.props.productRatingKey || "",
-      //     });
-
-      //   console.log("component",component)
-      // },
     },
   });
 
@@ -337,6 +317,5 @@ export const itemDetailsBlock = (editor) => {
     category: "Dynamic Blocks",
     attributes: { class: "fa fa-shopping-cart" },
     content: { type: "product-component" },
-    // content: `<div  class="product-component" data-gjs-type="product-component" ></div>`,
   });
 };

@@ -1,7 +1,6 @@
 import { message } from "antd";
 
 export const publish = async (editor, templateId) => {
-  // Accept templateId as a parameter
   editor.store();
 
   const publishUrl = `http://localhost:3001/publish/${templateId}`;
