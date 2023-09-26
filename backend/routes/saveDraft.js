@@ -4,29 +4,28 @@ const Template = require("../models/template");
 
 router.post("/", async (req, res) => {
   try {
-    // Extract content and style from the request body
-    const { content, style } = req.body;
+    const { content, style, name } = req.body;
 
-    if (!content || !style) {
+    if (!content || !style || !name) {
       return res
         .status(400)
-        .json({ message: "Content and style are required." });
+        .json({ message: "Content, style and name are required." });
     }
-
     const template = new Template({
       content,
       style,
+      name,
     });
 
-    // Save the template to the database
     const savedTemplate = await template.save();
 
     res.status(201).json({
-      message: "Draft saved successfully",
+      message: "Template created successfully",
       templateId: savedTemplate._id.toString(),
+      templateName: savedTemplate.name,
     });
   } catch (error) {
-    console.error("Error saving draft:", error);
+    console.error("Error creating template:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
