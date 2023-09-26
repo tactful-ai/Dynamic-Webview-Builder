@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Row, Col, Button, Modal, Input, message, Spin } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import TemplateCard from "/src/templates/templateCard";
 
 export const Home = () => {

@@ -1,11 +1,9 @@
-import { message } from "antd";
-
 export const customButton = (editor) => {
   const buttonType = "custom-button";
   
   const script = function () {  
     const ticketPayload = {
-      id: 0, // You can generate a unique ID or use a placeholder value
+      id: 0,
       created_on: "2019-08-24T14:15:22Z",
       updated_on: "2019-08-24T14:15:22Z",
       due_on: "2019-08-24T14:15:22Z",
@@ -119,12 +117,6 @@ export const customButton = (editor) => {
       }
       let finalURL = actionURL;
       
-      // if (pramsData) {
-      //   const params = new URLSearchParams(pramsData);
-      //   // console.log(pramsData)
-      //   finalURL += `&${params.toString()}`;
-      // }
-
       console.log("finalURL",finalURL)
       let headers = {
         "Content-Type": "application/json",
@@ -141,7 +133,6 @@ export const customButton = (editor) => {
           }
         });
       }
-      // console.log(headers)
     
       const requestOptions = {
         method: method,
@@ -160,9 +151,9 @@ export const customButton = (editor) => {
         }
     
         const data = await response.json();
-        message.success("Request succeeded:", data);
+        alert("Request succeeded:", data);
       } catch (error) {
-        message.error("There was a problem with the request:", error);
+        alert("There was a problem with the request:", error);
       }
     };  
 
@@ -175,9 +166,6 @@ export const customButton = (editor) => {
         const name = input.name;
         const value = input.value;
         const sendInBody = input.getAttribute('sendinbody');
-        // console.log("name",name)
-        // console.log("value",value)
-        // console.log("sendInBody",sendInBody)
 
         if (name && value && sendInBody=='true') {
           formData[name] = value;
@@ -197,29 +185,21 @@ export const customButton = (editor) => {
         });
       }
 
-      // console.log(formData)
-      // console.log("pramsData",pramsData)
-
-
       let finalURL = actionURL;
       
       if (token) {
-        // Append token to the URL
         finalURL += `?token=${token}`;
       }
       
-      if (pramsData) {
+      if (pramsData!=="") {
         const params = new URLSearchParams(pramsData);
-        // console.log(pramsData)
         finalURL += `&${params.toString()}`;
       }
-      // console.log("finalURL",finalURL)
       let headers = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
       };
 
-      // Parse and add custom headers
       if (customHeaders) {
         const lines = customHeaders.split(",");
         lines.forEach((line) => {
@@ -228,9 +208,7 @@ export const customButton = (editor) => {
             headers[key.trim()] = value.trim();
           }
         });
-      }
-      // console.log(headers)
-    
+      }    
       const requestOptions = {
         method: method,
         headers: headers,
@@ -248,9 +226,9 @@ export const customButton = (editor) => {
         }
     
         const data = await response.json();
-        message.success("Request succeeded:", data);
+        alert("Request succeeded:", data);
       } catch (error) {
-        message.error("There was a problem with the request:", error);
+        alert("There was a problem with the request:", error);
       }
     };  
 

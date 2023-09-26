@@ -6,7 +6,7 @@ export const customSelect = (editor) => {
         defaults: {
           tagName: "select",
           name: "",
-          sendinbody: false, // Added for the "Send in Body" trait
+          sendinbody: false, 
           traits: [
             {
               name: "name",
@@ -24,8 +24,7 @@ export const customSelect = (editor) => {
             {
               name: "options",
               label: "Options",
-              type: "select-options", // Use a custom trait type for options
-              // Define the options as an array of objects with value and name properties
+              type: "select-options", 
               options: [
                 { value: "option1", name: "Option 1" },
                 { value: "option2", name: "Option 2" },
