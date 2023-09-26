@@ -1,4 +1,9 @@
 export const itemDetailsBlock = (editor) => {
+  const apiUrlOptions = [
+    { value: "http://localhost:3001/faqItems", name: "Dstny FAQ" },
+    { value: "http://localhost:3001/faq", name: "Grapes FAQ" },
+    { value: "http://localhost:3001/products", name: "Products" },
+  ];
   const fetchProductData = (
     url,
     productNameKey,
@@ -58,19 +63,17 @@ export const itemDetailsBlock = (editor) => {
   ) {
     // Check if data is an array
     if (!Array.isArray(data)) {
-      console.error('Data is not in the expected format (not an array)');
+      console.error("Data is not in the expected format (not an array)");
       return;
     }
 
-
-    let content = '<div>';
+    let content = "<div>";
     data?.forEach((item) => {
-      if (typeof item !== 'object') {
-        console.error('Item is not in the expected format (not an object)');
+      if (typeof item !== "object") {
+        console.error("Item is not in the expected format (not an object)");
         return;
       }
-      content +=
-        `<div class="product-item-card" data-product-id="${item.id}" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; margin-bottom: 20px; background-color: #fff;">`;
+      content += `<div class="product-item-card" data-product-id="${item.id}" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; margin-bottom: 20px; background-color: #fff;">`;
       content += `<h3 id="product-name" class="product-name" style="font-size: 18px; margin-bottom: 10px;">${item[productNameKey]}</h3>`;
       if (productImgKey) {
         content += `<img id="product-image" class="product-image" src="${item[productImgKey]}" alt="${item[productNameKey]}" style="max-width: 375px; height: auto; margin-bottom: 10px;">`;
@@ -85,15 +88,16 @@ export const itemDetailsBlock = (editor) => {
       content += "</div>";
     });
     content += "</div>";
-    
+
     const els = document.querySelectorAll(".product-component");
     Array.prototype.forEach.call(els, (_, idx) => {
-
       document.getElementsByClassName("product-component")[idx].innerHTML =
         content;
     });
-  
-    const addToCartButtons = Array.from(document.querySelectorAll(".add-to-cart-button"));
+
+    const addToCartButtons = Array.from(
+      document.querySelectorAll(".add-to-cart-button")
+    );
 
     addToCartButtons.forEach((button) => {
       button.addEventListener("click", () => {
@@ -102,8 +106,6 @@ export const itemDetailsBlock = (editor) => {
       });
     });
   }
-
-
 
   const script = function (props) {
     // const component = document.querySelectorAll(".product-component")
@@ -173,19 +175,17 @@ export const itemDetailsBlock = (editor) => {
     ) {
       // Check if data is an array
       if (!Array.isArray(data)) {
-        console.error('Data is not in the expected format (not an array)');
+        console.error("Data is not in the expected format (not an array)");
         return;
       }
 
-
-      let content = '<div>';
+      let content = "<div>";
       data?.forEach((item) => {
-        if (typeof item !== 'object') {
-          console.error('Item is not in the expected format (not an object)');
+        if (typeof item !== "object") {
+          console.error("Item is not in the expected format (not an object)");
           return;
         }
-        content +=
-          `<div class="product-item-card" data-product-id="${item.id}" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; margin-bottom: 20px; background-color: #fff;">`;
+        content += `<div class="product-item-card" data-product-id="${item.id}" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; margin-bottom: 20px; background-color: #fff;">`;
         content += `<h3 id="product-name" class="product-name" style="font-size: 18px; margin-bottom: 10px;">${item[productNameKey]}</h3>`;
         if (productImgKey) {
           content += `<img id="product-image" class="product-image" src="${item[productImgKey]}" alt="${item[productNameKey]}" style="max-width: 375px; height: auto; margin-bottom: 10px;">`;
@@ -200,15 +200,16 @@ export const itemDetailsBlock = (editor) => {
         content += "</div>";
       });
       content += "</div>";
-      
+
       const els = document.querySelectorAll(".product-component");
       Array.prototype.forEach.call(els, (_, idx) => {
-
         document.getElementsByClassName("product-component")[idx].innerHTML =
           content;
       });
-    
-      const addToCartButtons = Array.from(document.querySelectorAll(".add-to-cart-button"));
+
+      const addToCartButtons = Array.from(
+        document.querySelectorAll(".add-to-cart-button")
+      );
 
       addToCartButtons.forEach((button) => {
         button.addEventListener("click", () => {
@@ -240,14 +241,6 @@ export const itemDetailsBlock = (editor) => {
   editor.DomComponents.addType("product-component", {
     model: {
       defaults: {
-      //   attributes: {
-      //     apiUrl: "http://localhost:3001/products",
-      //     apiEndpoint: "http://localhost:3001/products",
-      //     productNameKey: "",
-      //     productImgKey: "",
-      //     productDescriptionKey: "",
-      //     productRatingKey: "",
-      // },
         script,
         content: `<div id="product-component" class="product-component" data-gjs-type="product-component" ></div>`,
         apiUrl: "http://localhost:3001/products",
@@ -259,8 +252,9 @@ export const itemDetailsBlock = (editor) => {
         traits: [
           {
             name: "apiUrl",
-            label: "API Endpoint",
-            type: "text",
+            label: "API URL",
+            type: "select",
+            options: apiUrlOptions,
             changeProp: true,
           },
           {
@@ -306,20 +300,20 @@ export const itemDetailsBlock = (editor) => {
       },
       view: {
         async onRender() {
-          const url = this.model.get('apiUrl');
-  
+          const url = this.model.get("apiUrl");
+
           const content = await fetchProductData(
             url,
-            this.model.get('productNameKey'),
-            this.model.get('productImgKey'),
-            this.model.get('productDescriptionKey'),
-            this.model.get('productRatingKey'),
+            this.model.get("productNameKey"),
+            this.model.get("productImgKey"),
+            this.model.get("productDescriptionKey"),
+            this.model.get("productRatingKey")
           );
-  
+
           this.model.components(content);
         },
       },
-      
+
       // init(){
       //   this.on("change:productNameKey", this.handleAltChange);
       // },
@@ -332,7 +326,7 @@ export const itemDetailsBlock = (editor) => {
       //       'productDescriptionKey': component.props.productDescriptionKey || "",
       //       'productRatingKey': component.props.productRatingKey || "",
       //     });
-    
+
       //   console.log("component",component)
       // },
     },
@@ -342,7 +336,7 @@ export const itemDetailsBlock = (editor) => {
     label: "Product Block",
     category: "Dynamic Blocks",
     attributes: { class: "fa fa-shopping-cart" },
-    content: {type:"product-component"}
+    content: { type: "product-component" },
     // content: `<div  class="product-component" data-gjs-type="product-component" ></div>`,
   });
 };

@@ -1,10 +1,15 @@
 export const faqContent = (editor) => {
-  const fetchFAQData = (url,questionKey,answerKey) => {
+  const apiUrlOptions = [
+    { value: "http://localhost:3001/faqItems", name: "Dstny FAQ" },
+    { value: "http://localhost:3001/faq", name: "Grapes FAQ" },
+    { value: "http://localhost:3001/products", name: "Products" },
+  ];
+  const fetchFAQData = (url, questionKey, answerKey) => {
     if (url) {
       return fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          generateFAQContent(data,questionKey,answerKey);
+          generateFAQContent(data, questionKey, answerKey);
         })
         .catch((error) => {
           console.error("Error fetching FAQ data:", error);
@@ -12,9 +17,9 @@ export const faqContent = (editor) => {
     }
   };
 
-  function generateFAQContent(data,questionKey,answerKey) {
+  function generateFAQContent(data, questionKey, answerKey) {
     if (!Array.isArray(data)) {
-      console.error('Data is not in the expected format (not an array)');
+      console.error("Data is not in the expected format (not an array)");
       return;
     }
 
@@ -30,29 +35,29 @@ export const faqContent = (editor) => {
   }
 
   const script = function (props) {
-    const fetchFAQData = (url,questionKey,answerKey) => {
+    const fetchFAQData = (url, questionKey, answerKey) => {
       if (url) {
         return fetch(url)
           .then((response) => response.json())
           .then((data) => {
-            generateFAQContent(data,questionKey,answerKey);
+            generateFAQContent(data, questionKey, answerKey);
           })
           .catch((error) => {
             console.error("Error fetching FAQ data:", error);
           });
       }
     };
-    
-    function generateFAQContent(data,questionKey,answerKey) {
+
+    function generateFAQContent(data, questionKey, answerKey) {
       if (!Array.isArray(data)) {
-        console.error('Data is not in the expected format (not an array)');
+        console.error("Data is not in the expected format (not an array)");
         return;
       }
 
       let content = "<div>";
       data?.forEach((item) => {
-        if (typeof item !== 'object') {
-          console.error('Item is not in the expected format (not an object)');
+        if (typeof item !== "object") {
+          console.error("Item is not in the expected format (not an object)");
           return;
         }
         content += `<div class="faq-item">  
@@ -67,10 +72,10 @@ export const faqContent = (editor) => {
       });
     }
 
-    fetchFAQData(props.apiUrl,props.questionKey,props.answerKey);
+    fetchFAQData(props.apiUrl, props.questionKey, props.answerKey);
 
     window.addEventListener("load", () => {
-      fetchFAQData(props.apiUrl,props.questionKey,props.answerKey);
+      fetchFAQData(props.apiUrl, props.questionKey, props.answerKey);
     });
   };
 
@@ -78,30 +83,33 @@ export const faqContent = (editor) => {
     model: {
       defaults: {
         script,
-        content: "<div id='faq-component' class='faq-component' data-gjs-type='faq-component'>Fetching</div>",
-        apiUrl: "http://localhost:3001/faq",
-        questionKey:"",
-        answerKey:"",
-        traits:[ 
+        content:
+          "<div id='faq-component' class='faq-component' data-gjs-type='faq-component'>Fetching</div>",
+        apiUrl: "",
+        questionKey: "",
+        answerKey: "",
+        traits: [
           {
             name: "apiUrl",
             label: "API URL",
+            type: "select",
+            options: apiUrlOptions,
+            changeProp: true,
+          },
+          {
+            name: "questionKey",
+            label: "Question Key",
             type: "text",
             changeProp: true,
-          },        
-        {
-          name: "questionKey",
-          label: "Question Key",
-          type: "text",
-          changeProp: true,
-        },
-        {
-          name: "answerKey",
-          label: "Answer Key",
-          type: "text",
-          changeProp: true,
-        },],
-        "script-props": ["fetchFAQData", "apiUrl","questionKey","answerKey"],
+          },
+          {
+            name: "answerKey",
+            label: "Answer Key",
+            type: "text",
+            changeProp: true,
+          },
+        ],
+        "script-props": ["fetchFAQData", "apiUrl", "questionKey", "answerKey"],
       },
     },
     view: {
@@ -110,7 +118,7 @@ export const faqContent = (editor) => {
         const questionKey = model.get("questionKey");
         const answerKey = model.get("answerKey");
 
-        const content = await fetchFAQData(url,questionKey,answerKey);
+        const content = await fetchFAQData(url, questionKey, answerKey);
 
         this.model.components(content);
       },
