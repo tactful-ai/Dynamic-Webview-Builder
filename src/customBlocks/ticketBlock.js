@@ -69,7 +69,7 @@ export const defineTicket = (editor) =>{
     
         <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">
           <label for="assignee" style="font-weight: bold; margin-right: 10px;">Assignee:</label>
-          <input type="number" id="assignee" class="form-control" name="assignee_id" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+          <input type="text" id="assignee" class="form-control" name="assignee" style="background-color: rgba(0,0,0,0); padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
         </div>
     
         <div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 10px;">

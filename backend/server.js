@@ -20,6 +20,7 @@ const itemDetails = require("./routes/itemDetails");
 const allTemplates = require("./routes/allTemplates");
 const findTemplate = require("./routes/findTemplate");
 const cart = require("./routes/cart");
+const ticket = require("./routes/tickets");
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use("/products", itemDetails);
 app.use("/templates", allTemplates);
 app.use("/templates", findTemplate);
 app.use("/", cart);
+app.use("/",ticket);
 
 // Establish a connection with the MongoDB database
 mongoose
