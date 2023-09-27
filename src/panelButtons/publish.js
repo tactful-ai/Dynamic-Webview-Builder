@@ -14,11 +14,10 @@ export const publish = async (editor, templateId) => {
     });
 
     if (response.ok) {
-      const linkUrl = publishUrl;
-      message.success("Template published successfully");
-
-      return linkUrl;
+      window.open(publishUrl,'_blank');
+      return publishUrl;
     } else {
+      message.error("Failed to publish template");
       throw new Error("Failed to publish template");
     }
   } catch (error) {

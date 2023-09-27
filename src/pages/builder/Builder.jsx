@@ -33,6 +33,7 @@ export function Builder() {
   };
 
   useEffect(() => {
+    setGeneratedLink(`http://localhost:3001/publish/${templateId}`)
     const fetchTemplateData = async () => {
       try {
         const response = await fetch(

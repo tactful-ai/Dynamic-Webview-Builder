@@ -24,7 +24,7 @@ export const itemDetailsBlock = (editor) => {
           );
         })
         .catch((error) => {
-          alert("Error fetching product data:", error);
+          console.error("Error fetching product data:", error);
         });
     }
   };
@@ -47,11 +47,11 @@ export const itemDetailsBlock = (editor) => {
         if (response.ok) {
           alert("Product added to cart successfully");
         } else {
-          alert("Failed to add product to cart");
+          console.error("Failed to add product to cart");
         }
       })
       .catch((error) => {
-        alert("Error adding product to cart:", error);
+        console.error("Error adding product to cart:", error);
       });
   }
 
@@ -64,14 +64,14 @@ export const itemDetailsBlock = (editor) => {
   ) {
     // Check if data is an array
     if (!Array.isArray(data)) {
-      alert("Data is not in the expected format (not an array)");
+      console.error("Data is not in the expected format (not an array)");
       return;
     }
 
     let content = "<div>";
     data?.forEach((item) => {
       if (typeof item !== "object") {
-        alert("Item is not in the expected format (not an object)");
+        console.error("Item is not in the expected format (not an object)");
         return;
       }
       content += `<div class="product-item-card" data-product-id="${item.id}" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; margin-bottom: 20px; background-color: #fff;">`;
@@ -129,7 +129,7 @@ export const itemDetailsBlock = (editor) => {
             );
           })
           .catch((error) => {
-            alert("Error fetching product data:", error);
+            console.error("Error fetching product data:", error);
           });
       }
     };
@@ -152,11 +152,11 @@ export const itemDetailsBlock = (editor) => {
           if (response.ok) {
             alert("Product added to cart successfully");
           } else {
-            alert("Failed to add product to cart");
+            console.error("Failed to add product to cart");
           }
         })
         .catch((error) => {
-          alert("Error adding product to cart:", error);
+          console.error("Error adding product to cart:", error);
         });
     }
 
@@ -169,14 +169,14 @@ export const itemDetailsBlock = (editor) => {
     ) {
       // Check if data is an array
       if (!Array.isArray(data)) {
-        alert("Data is not in the expected format (not an array)");
+        console.error("Data is not in the expected format (not an array)");
         return;
       }
 
       let content = "<div>";
       data?.forEach((item) => {
         if (typeof item !== "object") {
-          alert("Item is not in the expected format (not an object)");
+          console.error("Item is not in the expected format (not an object)");
           return;
         }
         content += `<div class="product-item-card" data-product-id="${item.id}" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; margin-bottom: 20px; background-color: #fff;">`;
@@ -239,10 +239,10 @@ export const itemDetailsBlock = (editor) => {
         content: `<div id="product-component" class="product-component" data-gjs-type="product-component" ></div>`,
         apiUrl: "http://localhost:3001/products",
         apiEndpoint: "http://localhost:3001/add",
-        productNameKey: "",
-        productImgKey: "",
-        productDescriptionKey: "",
-        productRatingKey: "",
+        productNameKey: "productName",
+        productImgKey: "picture",
+        productDescriptionKey: "description",
+        productRatingKey: "ratings",
         traits: [
           {
             name: "apiUrl",
