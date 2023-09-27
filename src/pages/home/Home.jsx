@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Row, Col, Button, Modal, Input, message, Spin } from "antd";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TemplateCard from "/src/templates/templateCard";
 
 export const Home = () => {
@@ -79,8 +79,15 @@ export const Home = () => {
           marginBottom: "20px",
         }}
       >
-        <h1>Your Templates</h1>
-        <Button type="primary" onClick={showModal}>
+        <h1 style={{ marginBottom: "20px" }}>Your Templates</h1>
+        <Button
+          type="primary"
+          style={{
+            background: "rgb(17, 129, 153)",
+            color: "white",
+          }}
+          onClick={showModal}
+        >
           New Template
         </Button>
       </div>

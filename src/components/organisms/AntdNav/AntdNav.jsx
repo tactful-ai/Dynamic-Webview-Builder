@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { Layout, Menu, Button, theme } from "antd";
 import {
-  MenuFoldOutlined,
+  LeftOutlined,
+  RightOutlined,
   UserOutlined,
   ToolOutlined,
 } from "@ant-design/icons";
@@ -36,17 +37,25 @@ const AntdNav = ({ children }) => {
 
   return (
     <Layout className="layout">
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        style={{
+          background:
+            "linear-gradient(149.16deg, rgb(17, 129, 153) 26.81%, rgb(0, 73, 107) 93.24%)",
+        }}
+      >
         <div className="dstny-icon">
           {collapsed ? (
             <img
               src={dstnyCollapsedIcon}
               alt="Dstny Engage Collapsed"
               width="auto"
-              height="30px"
+              height="60px"
               style={{
                 display: "block",
-                margin: "10px 20px 5px 25px",
+                margin: "10px 20px 5px 15px",
               }}
             />
           ) : (
@@ -54,7 +63,7 @@ const AntdNav = ({ children }) => {
               src={dstnyIcon}
               alt="Dstny Engage"
               width="auto"
-              height="50px"
+              height="60px"
               style={{
                 display: "block",
                 margin: "15px 20px 5px 38px",
@@ -62,11 +71,29 @@ const AntdNav = ({ children }) => {
             />
           )}
         </div>
+        <Button
+          type="text"
+          icon={collapsed ? <RightOutlined /> : <LeftOutlined />}
+          onClick={() => setCollapsed(!collapsed)}
+          style={{
+            fontSize: "12px",
+            width: 30,
+            height: 30,
+            background: "rgb(17, 129, 153)",
+            color: "white",
+            position: "fixed",
+            margin: collapsed ? "-50px 20px 0px 60px" : "-50px 20px 0px 180px",
+          }}
+        />
         <Menu
           items={menuItems}
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["0"]}
+          style={{
+            background: "rgb(17, 129, 153)",
+            color: "white",
+          }}
         />
         <Footer
           style={{
@@ -91,18 +118,7 @@ const AntdNav = ({ children }) => {
             alignItems: "center",
             padding: "0 16px",
           }}
-        >
-          <Button
-            type="text"
-            icon={<MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
-          />
-        </Header>
+        ></Header>
         <Content className="content" style={{ background: colorBgContainer }}>
           {children}
         </Content>

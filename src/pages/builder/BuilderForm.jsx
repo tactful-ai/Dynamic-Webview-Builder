@@ -51,7 +51,7 @@ export function BuilderForm() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2 style={{ marginBottom: "20px" }}>Create New Template</h2>
+      <h1 style={{ marginBottom: "20px" }}>Create New Template</h1>
       <div style={{ marginBottom: "10px" }}>
         <label htmlFor="templateName">Template Name:</label>
         <Input
@@ -64,7 +64,11 @@ export function BuilderForm() {
       </div>
       <div style={{ marginTop: "20px" }}>
         <Button
-          style={{ marginLeft: "550px" }}
+          style={{
+            marginLeft: "550px",
+            background: "rgb(17, 129, 153)",
+            color: "white",
+          }}
           type="primary"
           onClick={handleSave}
         >
