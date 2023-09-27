@@ -23,6 +23,6 @@ Currently, two official plugins are available:
 
 # Score Card
 
-- (Score Card)[https://drive.google.com/file/d/1kzFVDZdj8T-oO7GKsPO2YECkL_y380Si/view?usp=sharing]
+- [Score Card](https://drive.google.com/file/d/1kzFVDZdj8T-oO7GKsPO2YECkL_y380Si/view?usp=sharing)
 
 # Demo
