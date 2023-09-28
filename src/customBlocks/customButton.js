@@ -2,76 +2,6 @@ export const customButton = (editor) => {
   const buttonType = "custom-button";
   
   const script = function () {  
-         
-    // const handleCreateTicket = async (actionURL, method, form,token,customHeaders,params) => {
-    //   const formData= {};
-    //   const pramsData = {};
-    //   const inputs = form.querySelectorAll("input, select, textarea");
-
-    //   inputs.forEach(function (input) {
-    //     const name = input.name;
-    //     const value = input.value;
-    //     const sendInBody = input.getAttribute('sendinbody');
-
-    //     if (name && value && sendInBody=='true') {
-    //       formData[name] = value;
-    //     }
-    //     else if(name && value && sendInBody =='false' ){
-    //       pramsData[name]= value;
-    //     }
-    //   });
-
-    //   if (params) {
-    //     const lines = params.split(",");
-    //     lines.forEach((line) => {
-    //       const [key, value] = line.split(":");
-    //       if (key && value) {
-    //         pramsData[key.trim()] = value.trim();
-    //       }
-    //     });
-    //   }
-    //   let finalURL = actionURL;
-      
-    //   console.log("finalURL",finalURL)
-    //   let headers = {
-    //     "Content-Type": "application/json",
-    //     "Authorization": `Bearer ${token}`,
-    //   };
-
-    //   // Parse and add custom headers
-    //   if (customHeaders) {
-    //     const lines = customHeaders.split(",");
-    //     lines.forEach((line) => {
-    //       const [key, value] = line.split(":");
-    //       if (key && value) {
-    //         headers[key.trim()] = value.trim();
-    //       }
-    //     });
-    //   }
-    
-    //   const requestOptions = {
-    //     method: method,
-    //     headers: headers,
-    //     body: method === "POST"? JSON.stringify(formData) : null,
-    //   };
-    
-    //   try {
-    //     const response = await fetch(finalURL, requestOptions);
-    //     if (!response.ok) {
-    //       if (response.status === 0) {
-    //         throw new Error("Network error: CORS policy may be blocking the request.");
-    //       } else {
-    //         throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
-    //       }
-    //     }
-    
-    //     const data = await response.json();
-    //     console.log("Request succeeded:", data);
-    //   } catch (error) {
-    //     console.error("There was a problem with the request:", error);
-    //   }
-    // };  
-
     const handleHttpRequestAction = async (actionURL, method, form,token,customHeaders,params) => {
       const formData = {};
       const pramsData = {};
@@ -90,7 +20,7 @@ export const customButton = (editor) => {
         }
       });
 
-      if (params) {
+      if (params!=="") {
         const lines = params.split(",");
         lines.forEach((line) => {
           const [key, value] = line.split(":");
@@ -106,13 +36,13 @@ export const customButton = (editor) => {
         finalURL += `?token=${token}`;
       }
       
-      if (pramsData!=="") {
+      if (pramsData) {
         const params = new URLSearchParams(pramsData);
         finalURL += `&${params.toString()}`;
       }
       let headers = {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        "X-API-KEY": `Bearer ${token}`,
       };
 
       if (customHeaders) {
@@ -167,10 +97,6 @@ export const customButton = (editor) => {
           const form = this.parentElement;
           await handleHttpRequestAction(actionURL, method, form,token,customHeaders,params);
         }
-        // else if (action === "handleCreateTicketRequest" && method && actionURL) {
-        //   const form = this.parentElement;
-        //   await handleCreateTicket(actionURL, method, form,token,customHeaders,params);
-        // }
       })
     }
     })
@@ -212,8 +138,6 @@ export const customButton = (editor) => {
             options: [
               { value: "alert", name: "alert" },
               { value: "handleHttpRequest", name: "handleHttpRequest" },
-              // { value: "handleCreateTicketRequest", name: "handleCreateTicketRequest" },
-
             ],
           },
           {

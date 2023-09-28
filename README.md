@@ -26,3 +26,5 @@ Currently, two official plugins are available:
 - [Score Card](https://drive.google.com/file/d/1kzFVDZdj8T-oO7GKsPO2YECkL_y380Si/view?usp=sharing)
 
 # Demo
+
+- [Demo Video](https://drive.google.com/file/d/1qHz6EWbcm3DBdh0jezO6MQuqDjLrgciK/view?usp=sharing)
