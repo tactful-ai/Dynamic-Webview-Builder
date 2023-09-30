@@ -10,13 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.2.5",
+    "@ant-design/icons": "^5.2.6",
+    "@eisberg-labs/mui-copy-field": "^4.0.2",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@grapesjs/react": "^1.0.0",
+    "@mui/icons-material": "^5.14.9",
+    "@mui/material": "^5.14.10",
     "antd": "^5.8.4",
+    "dotenv": "^16.3.1",
     "grapesjs": "^0.21.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.15.0"
+    "react-router-dom": "^6.16.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

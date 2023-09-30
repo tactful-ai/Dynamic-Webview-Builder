@@ -1,27 +1,13 @@
-import { useState, useEffect } from "react";
-import { Row, Col, Button, Modal, Input, message, Spin } from "antd";
+import { useState } from "react";
+import { Button, Input, Spin, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import TemplateCard from "/src/templates/templateCard";
 
-export const Home = () => {
-  const [templates, setTemplates] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+export function BuilderForm() {
   const [templateName, setTemplateName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("http://localhost:3001/templates")
-      .then((response) => response.json())
-      .then((data) => setTemplates(data))
-      .catch((error) => console.error("Error fetching templates:", error));
-  }, []);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = async () => {
+  const handleSave = async () => {
     if (templateName.trim() === "") {
       message.error("Please enter a template name.");
       return;
@@ -30,6 +16,7 @@ export const Home = () => {
     try {
       setIsLoading(true);
 
+      // Simulate an asynchronous operation with a timeout (remove this in your actual code)
       setTimeout(async () => {
         const response = await fetch("http://localhost:3001/save-draft", {
           method: "POST",
@@ -51,66 +38,43 @@ export const Home = () => {
           message.error("Failed to create template.");
         }
 
-        setIsModalVisible(false);
         setTemplateName("");
         setIsLoading(false);
-      }, 1000);
+      }, 1000); // Simulated 2-second delay (adjust as needed)
     } catch (error) {
       console.error("Error creating template:", error);
       message.error("Error creating template.");
-      setIsModalVisible(false);
       setTemplateName("");
       setIsLoading(false);
     }
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-    setTemplateName("");
-  };
-
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <h1 style={{ marginBottom: "20px" }}>Your Templates</h1>
-        <Button
-          type="primary"
-          style={{
-            background: "rgb(17, 129, 153)",
-            color: "white",
-          }}
-          onClick={showModal}
-        >
-          New Template
-        </Button>
-      </div>
-      <Row gutter={16}>
-        {templates.map((template) => (
-          <Col span={8} key={template._id}>
-            <TemplateCard templateId={template._id} />
-          </Col>
-        ))}
-      </Row>
-
-      <Modal
-        title="Enter Template Name"
-        open={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
+    <div style={{ padding: "20px" }}>
+      <h1 style={{ marginBottom: "20px" }}>Create New Template</h1>
+      <div style={{ marginBottom: "10px" }}>
+        <label htmlFor="templateName">Template Name:</label>
         <Input
+          id="templateName"
           placeholder="Enter template name"
           value={templateName}
           onChange={(e) => setTemplateName(e.target.value)}
+          style={{ marginLeft: "10px", width: "500px" }}
         />
-      </Modal>
+      </div>
+      <div style={{ marginTop: "20px" }}>
+        <Button
+          style={{
+            marginLeft: "550px",
+            background: "rgb(17, 129, 153)",
+            color: "white",
+          }}
+          type="primary"
+          onClick={handleSave}
+        >
+          Create
+        </Button>
+      </div>
 
       {isLoading && (
         <div
@@ -132,4 +96,4 @@ export const Home = () => {
       )}
     </div>
   );
-};
+}

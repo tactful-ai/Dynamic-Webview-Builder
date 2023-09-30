@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 
 const templateSchema = new mongoose.Schema({
-  id: mongoose.Schema.Types.ObjectId,
+  name: {
+    type: String,
+  },
   content: mongoose.Schema.Types.Mixed,
   style: mongoose.Schema.Types.Mixed,
 });

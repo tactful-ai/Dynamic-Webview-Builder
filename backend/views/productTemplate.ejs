@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+      .product-container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 600px;
+      }
+      .product-name {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      img.product-image {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+      p {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      .rating {
+        font-size: 18px;
+        color: #f39c12;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="product-container">
+      <h1 class="product-name"><%= productData.productName %></h1>
+      <img
+        src="<%= productData.picture %>"
+        alt="<%= productData.productName %>"
+        class="product-image"
+      />
+      <p><%= productData.description %></p>
+      <p class="rating">Rating: <%= productData.ratings %></p>
+      <form action="/add" method="POST">
+        <input type="hidden" name="productId" value="<%= productData.id %>" />
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" value="1" min="1" />
+        <button type="submit">Add to Cart</button>
+      </form>
+    </div>
+  </body>
+</html>

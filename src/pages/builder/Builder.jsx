@@ -1,137 +1,157 @@
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import GjsEditor from "@grapesjs/react";
 import gjsOptions from "/src/utils/gjsOptions";
 import { editorPlugins } from "/src/utils/plugins";
+import { defineCustomBlocks } from "/src/customBlocks/customBlocks";
+import { itemDetailsBlock } from "/src/customBlocks/itemDetails";
+import { faqContent } from "/src/customBlocks/faqContent";
+import { customButton } from "/src/customBlocks/customButton";
+import { customInput } from "/src/customBlocks/customInput";
+import {customSelect} from "/src/customBlocks/customSelect";
+import { defineFormBlocks } from "/src/customBlocks/formBlocks";
+import {defineTicket} from "/src/customBlocks/ticketBlock";
+import { update } from "/src/panelButtons/update";
+import { publish } from "/src/panelButtons/publish";
+import { message } from "antd";
+import { CopyField } from "@eisberg-labs/mui-copy-field";
 
 export function Builder() {
+  const { templateId } = useParams();
+
+  const [generatedLink, setGeneratedLink] = useState("");
+  const copyToClipboard = () => {
+    const linkInput = document.createElement("input");
+    linkInput.value = generatedLink;
+
+    document.body.appendChild(linkInput);
+    linkInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(linkInput);
+
+    message.success("Link copied to clipboard");
+  };
+
+  useEffect(() => {
+    setGeneratedLink(`http://localhost:3001/publish/${templateId}`)
+    const fetchTemplateData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3001/templates/${templateId}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch template data.");
+        }
+        const data = await response.json();
+
+        // Store the template data in localStorage
+        localStorage.setItem("templateData", JSON.stringify(data));
+      } catch (error) {
+        console.error("Error fetching template data:", error);
+      }
+    };
+
+    fetchTemplateData();
+  }, [templateId]);
 
   const onEditor = (editor) => {
+    editor.on("load", () => {
+      const storedTemplateData = localStorage.getItem("templateData");
+      if (storedTemplateData) {
+        const templateData = JSON.parse(storedTemplateData);
+
+        if (templateData.content) {
+          editor.setComponents(templateData.content);
+        }
+        if (templateData.style) {
+          editor.setStyle(templateData.style);
+        }
+      }
+    });
+
     const editorPanels = editor.Panels;
     const editorCommands = editor.Commands;
-    const editorBlockManager = editor.BlockManager;
-
     const panelViews = editorPanels.addPanel({
-      id: 'views',
+      id: "views",
     });
-    
-    panelViews.get('buttons').add([
+
+    panelViews.get("buttons").add([
       {
         attributes: {
-          title: 'Open Code',
+          title: "Open Code",
         },
-        className: 'fa fa-file-code-o',
-        command: 'open-code',
-        togglable: false, 
-        id: 'open-code',
+        className: "fa fa-file-code-o",
+        command: "open-code",
+        togglable: false,
+        id: "open-code",
       },
     ]);
+
+    // Update Button
+    editorCommands.add("update", function (editor, sender) {
+      sender && sender.set("active", 0);
+      update(editor, templateId);
+    });
 
     editorPanels.addButton("options", [
       {
-        id: "save-db",
+        id: "update",
         className: "fa fa-floppy-o",
-        command: "save-db",
-        attributes: { title: "Save DB" },
+        command: "update",
+        attributes: { title: "Update" },
       },
     ]);
+
+    // Publish Button
+    editorCommands.add("publish", function (editor, sender) {
+      sender && sender.set("active", 0);
+      publish(editor, templateId)
+        .then((link) => {
+          setGeneratedLink(link);
+        })
+        .catch((error) => {
+          console.error("Error publishing:", error);
+          message.error("Error publishing template");
+        });
+    });
 
     editorPanels.addButton("options", [
       {
         id: "publish",
         className: "fa fa-paper-plane",
         command: "publish",
-        attributes: { title: "publish" },
+        attributes: { title: "Publish" },
       },
     ]);
-
-    editorCommands.add("save-db", {
-      run: function (editor, sender) {
-        sender && sender.set("active", 0);
-        editor.store();
-
-        const htmlContent = editor.getHtml();
-        const cssStyles = editor.getCss();
-        var styles = `<style>${cssStyles}</style>`;
-        console.log(htmlContent);
-        console.log(cssStyles);
-
-        fetch("http://localhost:3001/save-draft", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ content: htmlContent, style: styles }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Data saved:", data);
-            localStorage.setItem("templateId", data.templateId);
-            console.log("template", data.templateId);
-          })
-          .catch((error) => {
-            console.error("Error saving data:", error);
-          });
-      },
-    });
-
-    editorCommands.add("publish", {
-      run: function (editor, sender) {
-        sender && sender.set("active", 0);
-        editor.store();
-
-        const templateId = localStorage.getItem("templateId");
-        console.log("Stored Template ID:", templateId);
-
-        fetch(`http://localhost:3001/publish/${templateId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        // Generate the link URL
-        const linkUrl = `http://localhost:3001/publish/${templateId}`;
-
-        console.log("Link to published template:", linkUrl);
-
-        // Open the link in a new browser window
-        const newWindow = window.open(linkUrl, "_blank");
-        newWindow.focus();
-      },
-    });
-
-    editorBlockManager.add('input-label-block', {
-      label: 'Input Label',
-      category: 'Styled Components',
-      content: `
-          <div class="input-label-block" >
-            <div class="input-label-row">
-              <label class="input-label" for="name">Name:</label>
-              <input class="input-field" type="text" id="name">
-            </div>
-          </div>
-        `,
-    });
-
-    editorBlockManager.add("styled-faq", {
-      label: "Styled FAQ",
-      category: "Styled Components",
-      content: `
-          <div class="styled-faq">
-            <h2 class="faq-heading">Frequently Asked Questions</h2>
-            <div class="faq-item">
-              <h3>Question 1:</h3>
-              <p>Answer to Question 1</p>
-            </div>
-          </div>
-        `,
-    });
+    
+    defineFormBlocks(editor);
+    faqContent(editor);
+    customButton(editor);
+    customInput(editor);
+    customSelect(editor);
+    itemDetailsBlock(editor);
+    defineCustomBlocks(editor);
+    defineTicket(editor);
     window.editor = editor;
   };
 
   return (
     <>
       <div>
+        <div>
+          <CopyField
+            type="text"
+            value={generatedLink}
+            readOnly
+            label="Generated Link"
+            onCopySuccess={copyToClipboard}
+            style={{
+              width: "500px",
+              marginBottom: "5px",
+            }}
+          />
+        </div>
         <GjsEditor
-          className="gjs-custom-editor"
           grapesjs="https://unpkg.com/grapesjs"
           grapesjsCss="https://unpkg.com/grapesjs/dist/css/grapes.min.css"
           options={gjsOptions}

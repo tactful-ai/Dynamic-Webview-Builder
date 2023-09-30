@@ -38,14 +38,11 @@ html{
   display: none;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  position: fixed;
-  top: 50%;
-  left: 50%;
+.gjs-pn-views-container {
+  height: 95vh !important;
+  padding: 42px 0px 0px;
+  right: 0px;
+  width: 15%;
+  overflow: scroll;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;
 }
